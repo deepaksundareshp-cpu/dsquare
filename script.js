@@ -32,7 +32,7 @@ I’m someone who wants to learn and keep learning. Sometimes we don’t even re
         if (index < text.length) {
             typedText.textContent += text.charAt(index);
             index++;
-            setTimeout(typeWriter, 80); // Speed of typing
+            setTimeout(typeWriter, 140); // Speed of typing
         } else {
             coffeeSection.classList.remove("hidden");
         }
@@ -79,7 +79,7 @@ I’m someone who wants to learn and keep learning. Sometimes we don’t even re
     noBtn.addEventListener("click", function () {
         coffeeSection.classList.add("hidden");
         noContent.classList.remove("hidden");
-        sendResponse("NO 🙈");
+        sendResponse("NO 🙂‍↔️");
     });
 
 });
