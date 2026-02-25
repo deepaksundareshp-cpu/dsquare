@@ -1,17 +1,10 @@
 emailjs.init("YOUR_PUBLIC_KEY");
 
-const book = document.querySelector('.book');
-const turnBtn = document.getElementById('turn-page');
-
 const yesBtn = document.getElementById('yes-btn');
 const noBtn = document.getElementById('no-btn');
 const mainContent = document.getElementById('main-content');
 const yesContent = document.getElementById('yes-content');
 const noContent = document.getElementById('no-content');
-
-turnBtn.addEventListener('click', () => {
-    book.classList.add('flipped');
-});
 
 function moveNoButton() {
     const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
