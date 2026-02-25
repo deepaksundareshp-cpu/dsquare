@@ -1,124 +1,85 @@
-body {
-    margin: 0;
-    padding: 0;
-    background: #fdf6e3; /* Soft cream */
-    background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
-    font-family: 'Inter', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow-x: hidden;
-}
+// 1. INITIALIZE EMAILJS
+// Replace "YOUR_PUBLIC_KEY" with your actual key from EmailJS Account tab
+emailjs.init("YOUR_PUBLIC_KEY");
 
-.journal-container {
-    background: #ffffff;
-    width: 90%;
-    max-width: 600px;
-    padding: 50px 40px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    border-radius: 2px;
-    position: relative;
-    z-index: 10;
-    /* Notebook lines effect */
-    background-image: repeating-linear-gradient(transparent, transparent 31px, #e8d5d5 31px, #e8d5d5 32px);
-    line-height: 32px;
-    border-left: 5px solid #ffb6c1; /* Pink notebook spine */
-}
+document.addEventListener("DOMContentLoaded", function () {
 
-.title {
-    font-family: 'Caveat', cursive;
-    font-size: 3rem;
-    text-align: center;
-    margin-bottom: 30px;
-    color: #4a4a4a;
-}
+    const text = `There’s something called journaling… and honestly, I only recently understood that word properly — because of you.
 
-.journal-text {
-    font-family: 'Caveat', cursive;
-    font-size: 1.6rem;
-    color: #444;
-    min-height: 200px;
-    white-space: pre-line;
-}
+I never used to write things down, especially not my dreams. I realized that the first few minutes after waking up are important. If I let other thoughts enter my mind, the dream slowly fades away.
 
-.coffee-section {
-    margin-top: 40px;
-    text-align: center;
-    transition: all 0.8s ease;
-}
+So I started writing immediately after waking up, just whatever I could remember.
 
-.coffee-question {
-    font-family: 'Caveat', cursive;
-    font-size: 2.2rem;
-    margin-bottom: 25px;
-}
+After seeing your work, something clicked for me. I understood that writing isn’t just about preserving something personal.
 
-.buttons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    height: 60px; /* Space for moving button */
-}
+In a world where so much of our lives feels visible and public, journaling feels different. It feels private. It feels intentional. It feels like something that is ONLY I KNOW.
 
-.btn {
-    padding: 10px 30px;
-    border-radius: 25px;
-    border: 1px solid #4a4a4a;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: transform 0.2s;
-    font-family: 'Inter', sans-serif;
-}
+And I genuinely want to thank you for that.
 
-.primary {
-    background: #ffb6c1;
-    color: white;
-    border: none;
-    box-shadow: 0 4px 10px rgba(255, 182, 193, 0.4);
-}
+I’m someone who wants to learn and keep learning. Sometimes we don’t even realize who teaches us something valuable in life — but in this case, you did.`;
 
-.secondary {
-    background: #f0f0f0;
-    color: #555;
-    position: relative; /* Needed for JS movement */
-}
+    const typedText = document.getElementById("typed-text");
+    const coffeeSection = document.getElementById("coffee-section");
+    const yesBtn = document.getElementById("yes-btn");
+    const noBtn = document.getElementById("no-btn");
+    const yesContent = document.getElementById("yes-content");
+    const noContent = document.getElementById("no-content");
 
-.bounce {
-    animation: bounce 2s infinite;
-}
+    let index = 0;
 
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-}
+    // Typewriter effect
+    function typeWriter() {
+        if (index < text.length) {
+            typedText.textContent += text.charAt(index);
+            index++;
+            setTimeout(typeWriter, 30); // Speed of typing
+        } else {
+            coffeeSection.classList.remove("hidden");
+        }
+    }
 
-.sticker {
-    position: absolute;
-    font-size: 2.5rem;
-    z-index: 1;
-    opacity: 0.6;
-}
-.s1 { top: 10%; left: 5%; transform: rotate(-15deg); }
-.s2 { top: 15%; right: 5%; transform: rotate(15deg); }
-.s3 { bottom: 10%; left: 8%; transform: rotate(10deg); }
-.s4 { bottom: 15%; right: 8%; transform: rotate(-20deg); }
+    typeWriter();
 
-.hidden { display: none !important; }
+    // The "NO" button runs away logic
+    noBtn.addEventListener("mouseover", moveButton);
+    noBtn.addEventListener("touchstart", moveButton);
 
-.response {
-    text-align: center;
-    animation: fadeIn 1s;
-}
+    function moveButton() {
+        // Calculate random position within the screen
+        const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+        const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+        
+        noBtn.style.position = "fixed";
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
+    // Email Sending Function
+    function sendResponse(answer) {
+        const params = {
+            user_response: answer,
+            click_time: new Date().toLocaleString()
+        };
 
-.hearts { font-size: 2rem; margin-top: 15px; }
+        // Replace these with your actual IDs from EmailJS
+        emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", params)
+            .then(() => console.log("Sent!"))
+            .catch((err) => console.log("Error:", err));
+    }
 
-@media (max-width: 600px) {
-    .journal-container { padding: 30px 20px; width: 85%; }
-    .title { font-size: 2.2rem; }
-}
+    // Button Actions
+    yesBtn.addEventListener("click", function () {
+        document.getElementById("typed-text").classList.add("hidden");
+        document.querySelector(".title").classList.add("hidden");
+        coffeeSection.classList.add("hidden");
+        yesContent.classList.remove("hidden");
+        sendResponse("YES 💕");
+    });
+
+    noBtn.addEventListener("click", function () {
+        coffeeSection.classList.add("hidden");
+        noContent.classList.remove("hidden");
+        sendResponse("NO 🙈");
+    });
+
+});
