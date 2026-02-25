@@ -1,104 +1,115 @@
 body {
-    background-color: #fdf6e3;
-    background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+    margin: 0;
+    padding: 0;
+    background: #f8f5f1;
+    font-family: 'Inter', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    margin: 0;
-    font-family: 'Caveat', cursive;
-    position: relative;
 }
 
-/* Stickers */
-.sticker {
-    position: absolute;
-    font-size: 3rem;
-    opacity: 0.7;
-    z-index: 1;
-}
-.sticker-1 { top: 10%; left: 10%; transform: rotate(-15deg); }
-.sticker-2 { top: 15%; right: 15%; transform: rotate(20deg); }
-.sticker-3 { bottom: 10%; left: 15%; transform: rotate(10deg); }
-.sticker-4 { bottom: 15%; right: 10%; transform: rotate(-20deg); }
-
-/* Journal Page */
-.journal-page {
-    background: white;
+.journal-container {
+    background: #ffffff;
     width: 90%;
-    max-width: 600px;
+    max-width: 700px;
     padding: 60px 40px;
-    border-radius: 8px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-    background-image: repeating-linear-gradient(
-        transparent,
-        transparent 31px,
-        #e8d5d5 31px,
-        #e8d5d5 32px
-    );
-    line-height: 32px;
-    z-index: 10;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+    border-radius: 6px;
+    line-height: 1.8;
+    transition: all 0.4s ease;
 }
 
-.message {
-    font-size: 2.2rem;
+.title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
     text-align: center;
-    margin-bottom: 30px;
-    font-weight: 700;
+    margin-bottom: 40px;
+    font-weight: 600;
+    color: #2e2e2e;
 }
 
 .journal-text {
-    font-size: 1.3rem;
-    color: #4a4a4a;
+    font-size: 1.1rem;
+    color: #444;
+    min-height: 220px;
+    white-space: pre-line;
 }
 
 .coffee-section {
-    margin-top: 40px;
+    margin-top: 50px;
     text-align: center;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.6s ease;
+}
+
+.coffee-section.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .coffee-question {
-    font-size: 1.9rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
     margin-bottom: 20px;
 }
 
 .buttons {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 20px;
 }
 
 .btn {
-    font-family: 'Caveat', cursive;
-    font-size: 1.8rem;
-    padding: 10px 30px;
-    border: none;
-    border-radius: 25px;
+    padding: 10px 26px;
+    border-radius: 30px;
+    border: 1px solid #2e2e2e;
+    font-size: 0.95rem;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    background: transparent;
 }
 
-#yes-btn {
-    background-color: #ffb6c1;
-    color: #fff;
+.primary:hover {
+    background: #2e2e2e;
+    color: white;
 }
 
-#no-btn {
-    background-color: #e0e0e0;
-    color: #555;
+.secondary:hover {
+    background: #dcdcdc;
+}
+
+.response {
+    margin-top: 50px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.response.visible {
+    opacity: 1;
 }
 
 .hidden {
-    display: none !important;
+    display: none;
 }
 
-.hearts {
-    font-size: 2rem;
-    margin-top: 20px;
-    animation: bounce 1.5s infinite ease-in-out;
-}
+/* Mobile Optimization */
+@media (max-width: 600px) {
+    .journal-container {
+        padding: 40px 25px;
+    }
 
-@keyframes bounce {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+    .title {
+        font-size: 2rem;
+    }
+
+    .journal-text {
+        font-size: 1rem;
+    }
+
+    .coffee-question {
+        font-size: 1.5rem;
+    }
 }
