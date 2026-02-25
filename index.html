@@ -5,56 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Small Note...</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 
-<div class="sticker sticker-1">📚</div>
-<div class="sticker sticker-2">✨</div>
-<div class="sticker sticker-3">🌸</div>
-<div class="sticker sticker-4">🖋️</div>
+<div class="journal-container">
 
-<div class="journal-page">
+    <h1 class="title">A Small Note</h1>
 
-    <h1 class="message">A Small Note...</h1>
+    <p id="typed-text" class="journal-text"></p>
 
-    <p class="journal-text">
-        There’s something called journaling… and honestly, I only recently understood that word properly — because of you.
-        <br><br>
-        I never used to write things down, especially not my dreams. I realized that the first few minutes after waking up are important. If I let other thoughts enter my mind, the dream slowly fades away.
-        <br><br>
-        So I started writing immediately after waking up, just whatever I could remember.
-        <br><br>
-        After seeing your work, something clicked for me. I understood that writing isn’t just about recording events — it’s about preserving something personal.
-        <br><br>
-        In a world where so much of our lives feels visible and public, journaling feels different. It feels private. It feels intentional. It feels like something that is ONLY I KNOW.
-        <br><br>
-        And I genuinely want to thank you for that.
-        <br><br>
-        I’m someone who wants to learn and keep learning. Sometimes we don’t even realize who teaches us something valuable in life — but in this case, you did.
-    </p>
-
-    <div class="coffee-section" id="main-content">
+    <div class="coffee-section fade-in" id="coffee-section">
         <h2 class="coffee-question">So... coffee? ☕</h2>
 
         <div class="buttons">
-            <button id="yes-btn" class="btn bounce">YES 💕</button>
-            <button id="no-btn" class="btn bounce">NO 🙂‍↔️</button>
+            <button id="yes-btn" class="btn primary">Yes</button>
+            <button id="no-btn" class="btn secondary">No</button>
         </div>
     </div>
 
-    <div id="yes-content" class="hidden text-center">
-        <h2 class="coffee-question">Yay! I can't wait! 🥰💖</h2>
-        <p class="sub-message">I'll text you to figure out the details.</p>
-        <div class="hearts">❤️❤️❤️❤️❤️</div>
+    <div id="yes-content" class="response hidden">
+        <h2>I'd really like that.</h2>
+        <p>I'll reach out and we can plan it.</p>
     </div>
 
-    <div id="no-content" class="hidden text-center">
-        <h2 class="coffee-question">Ouch... my heart! 💔🥺</h2>
-        <p class="sub-message">That's okay, maybe next time!</p>
+    <div id="no-content" class="response hidden">
+        <h2>That's okay.</h2>
+        <p>Still, thank you for reading this.</p>
     </div>
 
 </div>
