@@ -4,39 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Small Note...</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 
-<div class="journal-container">
+    <div class="sticker s1">📚</div>
+    <div class="sticker s2">✨</div>
+    <div class="sticker s3">🖋️</div>
+    <div class="sticker s4">🌸</div>
 
-    <h1 class="title">A Small Note</h1>
+    <div class="journal-container">
+        <h1 class="title">A Small Note</h1>
 
-    <p id="typed-text" class="journal-text"></p>
+        <p id="typed-text" class="journal-text"></p>
 
-    <div class="coffee-section fade-in" id="coffee-section">
-        <h2 class="coffee-question">So... coffee? ☕</h2>
+        <div class="coffee-section hidden" id="coffee-section">
+            <h2 class="coffee-question">Will you go for coffee with me? ☕❤️</h2>
+            <div class="buttons">
+                <button id="yes-btn" class="btn primary bounce">YES 💕</button>
+                <button id="no-btn" class="btn secondary">NO 🙈</button>
+            </div>
+        </div>
 
-        <div class="buttons">
-            <button id="yes-btn" class="btn primary">Yes</button>
-            <button id="no-btn" class="btn secondary">No</button>
+        <div id="yes-content" class="response hidden">
+            <h2 class="title">I'd really like that. 🥰</h2>
+            <p>I'll reach out soon to plan it. Can't wait!</p>
+            <div class="hearts">❤️❤️❤️</div>
+        </div>
+
+        <div id="no-content" class="response hidden">
+            <h2 class="title">That's okay. 🥺</h2>
+            <p>Still, thank you for reading this and being honest.</p>
         </div>
     </div>
 
-    <div id="yes-content" class="response hidden">
-        <h2>I'd really like that.</h2>
-        <p>I'll reach out and we can plan it.</p>
-    </div>
-
-    <div id="no-content" class="response hidden">
-        <h2>That's okay.</h2>
-        <p>Still, thank you for reading this.</p>
-    </div>
-
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
