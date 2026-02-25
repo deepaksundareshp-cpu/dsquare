@@ -32,7 +32,7 @@ I’m someone who wants to learn and keep learning. Sometimes we don’t even re
         if (index < text.length) {
             typedText.textContent += text.charAt(index);
             index++;
-            setTimeout(typeWriter, 140); // Speed of typing
+            setTimeout(typeWriter, 100); // Speed of typing
         } else {
             coffeeSection.classList.remove("hidden");
         }
