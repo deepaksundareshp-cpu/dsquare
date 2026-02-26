@@ -1,75 +1,91 @@
-// REPLACE THESE WITH YOUR KEYS FROM EMAILJS
-const PUBLIC_KEY = "YOUR_PUBLIC_KEY"; // From Account tab
-const SERVICE_ID = "YOUR_SERVICE_ID"; // From Email Services tab
-const TEMPLATE_ID = "YOUR_TEMPLATE_ID"; // From Email Templates tab
+// REPLACE THESE WITH YOUR KEYS
+const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
+const SERVICE_ID = "YOUR_SERVICE_ID";
+const TEMPLATE_ID = "YOUR_TEMPLATE_ID";
 
-// 1. Initialize EmailJS
 emailjs.init(PUBLIC_KEY);
 
 document.addEventListener("DOMContentLoaded", function () {
-    const envelopeOverlay = document.getElementById("envelope-overlay");
-    const mainSection = document.getElementById("main-section");
-    const yesContent = document.getElementById("yes-content");
-    const noContent = document.getElementById("no-content");
-    const music = document.getElementById("bg-music");
-    const noBtn = document.getElementById("no-btn");
-    const yesBtn = document.getElementById("yes-btn");
+    const envelope = document.getElementById('envelope');
+    const mainCard = document.getElementById('main-card');
+    const typedText = document.getElementById('typed-text');
+    const music = document.getElementById('bg-music');
+    const noBtn = document.getElementById('no-btn');
+    const yesBtn = document.getElementById('yes-btn');
+    const btnGroup = document.getElementById('button-group');
 
-    // 1. handle overlay interaction (activates music)
-    envelopeOverlay.addEventListener("click", function() {
-        envelopeOverlay.classList.add("open");
-        music.volume = 0.3; // Low background volume
-        music.play();
+    const fullText = `There’s something called journaling… it’s about preserving something personal. And I genuinely want to thank you for teaching me that.
 
-        // Reveal the main section after envelope animation
+I never used to write things down, especially not my dreams. I realized that the first few minutes after waking up are important. If I let other thoughts enter my mind, the dream slowly fades away.
+
+So I started writing immediately after waking up, just whatever I could remember.
+
+After seeing your work, something clicked for me. I understood that writing isn’t just about preserving something personal.
+
+In a world where so much of our lives feels visible and public, journaling feels different. It feels private. It feels intentional. It feels like something that is ONLY I KNOW.
+
+And I genuinely want to thank you for that.
+
+I’m someone who wants to learn and keep learning. Sometimes we don’t even realize who teaches us something valuable in life — but in this case, you did.
+
+So... coffee? ☕`;
+
+    // Generate 300 stars
+    const starField = document.getElementById('star-field');
+    for (let i = 0; i < 300; i++) {
+        let star = document.createElement('div');
+        star.className = 'star';
+        star.style.top = Math.random() * 100 + 'vh';
+        star.style.left = Math.random() * 100 + 'vw';
+        star.style.width = star.style.height = Math.random() * 2 + 'px';
+        star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+        starField.appendChild(star);
+    }
+
+    envelope.addEventListener('click', () => {
+        envelope.style.opacity = '0';
         setTimeout(() => {
-            envelopeOverlay.style.display = "none";
-            mainSection.classList.remove("hidden");
-        }, 1200);
+            envelope.classList.add('hidden');
+            mainCard.classList.remove('hidden');
+            music.volume = 0.3;
+            music.play();
+            startTyping();
+        }, 1000);
     });
 
-    // 2. Playful runaway NO button logic
-    function moveNoButton() {
-        // Calculate random position
-        const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-        const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-        
-        // Move button to position
+    let i = 0;
+    function startTyping() {
+        if (i < fullText.length) {
+            typedText.textContent += fullText.charAt(i);
+            i++;
+            let speed = 60; 
+            if (fullText.charAt(i-1) === '.' || fullText.charAt(i-1) === '?') speed = 500;
+            setTimeout(startTyping, speed);
+        } else {
+            setTimeout(() => {
+                btnGroup.classList.remove('hidden');
+            }, 800);
+        }
+    }
+
+    noBtn.addEventListener('mouseover', moveButton);
+    noBtn.addEventListener('touchstart', moveButton);
+
+    function moveButton() {
+        const x = Math.random() * (window.innerWidth - 120);
+        const y = Math.random() * (window.innerHeight - 60);
         noBtn.style.position = 'fixed';
-        noBtn.style.left = `${x}px`;
-        noBtn.style.top = `${y}px`;
+        noBtn.style.left = x + 'px';
+        noBtn.style.top = y + 'px';
+        noBtn.style.zIndex = "1001";
     }
 
-    noBtn.addEventListener('mouseover', moveNoButton);
-    noBtn.addEventListener('touchstart', moveNoButton);
-
-    // 3. Email Sending Function
-    function sendNotification(responseString) {
-        const templateParams = {
-            user_response: responseString,
+    yesBtn.addEventListener('click', () => {
+        mainCard.classList.add('hidden');
+        document.getElementById('final-yes').classList.remove('hidden');
+        emailjs.send(SERVICE_ID, TEMPLATE_ID, {
+            user_response: "YES 💕",
             click_time: new Date().toLocaleString()
-        };
-
-        emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
-            .then(function(response) {
-                console.log('SUCCESS!', response.status, response.text);
-            }, function(error) {
-                console.log('FAILED...', error);
-            });
-    }
-
-    // 4. Handle YES button click
-    yesBtn.addEventListener("click", function () {
-        mainSection.classList.add("hidden");
-        yesContent.classList.remove("hidden");
-        sendNotification('YES! 💕');
+        });
     });
-
-    // 5. Handle NO button click (In case she catches it)
-    noBtn.addEventListener("click", function () {
-        mainSection.classList.add("hidden");
-        noContent.classList.remove("hidden");
-        sendNotification('NO 🙈');
-    });
-
 });
