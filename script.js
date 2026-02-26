@@ -1,4 +1,4 @@
-// ENTER YOUR EMAILJS KEYS HERE
+// REPLACE WITH YOUR EMAILJS KEYS
 const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
 const SERVICE_ID = "YOUR_SERVICE_ID";
 const TEMPLATE_ID = "YOUR_TEMPLATE_ID";
@@ -6,7 +6,8 @@ const TEMPLATE_ID = "YOUR_TEMPLATE_ID";
 emailjs.init(PUBLIC_KEY);
 
 document.addEventListener("DOMContentLoaded", function () {
-    const envelope = document.getElementById('envelope');
+    const overlay = document.getElementById('envelope-overlay');
+    const icon = document.getElementById('envelope-icon');
     const mainCard = document.getElementById('main-card');
     const typedText = document.getElementById('typed-text');
     const music = document.getElementById('bg-music');
@@ -30,7 +31,7 @@ I’m someone who wants to learn and keep learning. Sometimes we don’t even re
 
 So... coffee? ☕`;
 
-    // Increased to 400 stars for a "Starry Night" feel
+    // 1. Star generator (400 stars)
     const starField = document.getElementById('star-field');
     for (let i = 0; i < 400; i++) {
         let star = document.createElement('div');
@@ -42,47 +43,49 @@ So... coffee? ☕`;
         starField.appendChild(star);
     }
 
-    // Audio triggers specifically upon clicking the heart
-    envelope.addEventListener('click', () => {
-        envelope.style.opacity = '0';
-        music.volume = 0.4; 
-        music.play().catch(e => console.log("Audio play failed:", e));
+    // 2. Open Envelope Transition
+    overlay.addEventListener('click', () => {
+        // Force Audio Play
+        music.volume = 0.4;
+        music.play().catch(e => console.log("Audio play blocked", e));
+
+        // Animate tearing away
+        icon.classList.add('envelope-tear');
+        overlay.classList.add('fade-out');
 
         setTimeout(() => {
-            envelope.classList.add('hidden');
+            overlay.style.display = 'none';
             mainCard.classList.remove('hidden');
             startTyping();
-        }, 1200);
+        }, 1500);
     });
 
-    let i = 0;
+    // 3. Typewriter logic
+    let charIndex = 0;
     function startTyping() {
-        if (i < fullText.length) {
-            typedText.textContent += fullText.charAt(i);
-            i++;
-            let speed = 55; 
-            if (fullText.charAt(i-1) === '.' || fullText.charAt(i-1) === '?') speed = 600;
-            if (fullText.charAt(i-1) === ',') speed = 300;
+        if (charIndex < fullText.length) {
+            typedText.textContent += fullText.charAt(charIndex);
+            charIndex++;
+            let speed = 60;
+            if (fullText.charAt(charIndex - 1) === '.' || fullText.charAt(charIndex - 1) === '?') speed = 600;
             setTimeout(startTyping, speed);
         } else {
             setTimeout(() => {
                 btnGroup.classList.remove('hidden');
-            }, 1000);
+            }, 800);
         }
     }
 
-    noBtn.addEventListener('mouseover', moveButton);
-    noBtn.addEventListener('touchstart', moveButton);
-
-    function moveButton() {
+    // 4. Runaway No Button
+    noBtn.addEventListener('mouseover', () => {
         const x = Math.random() * (window.innerWidth - 150);
         const y = Math.random() * (window.innerHeight - 80);
         noBtn.style.position = 'fixed';
         noBtn.style.left = x + 'px';
         noBtn.style.top = y + 'px';
-        noBtn.style.zIndex = "1001";
-    }
+    });
 
+    // 5. Final Action
     yesBtn.addEventListener('click', () => {
         mainCard.classList.add('hidden');
         document.getElementById('final-yes').classList.remove('hidden');
