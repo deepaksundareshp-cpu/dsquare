@@ -10,47 +10,33 @@
 </head>
 <body>
 
-    <div id="stars-container">
-        <div id="stars"></div>
-        <div id="stars2"></div>
-        <div id="stars3"></div>
-        <div class="shooting_star"></div>
-        <div class="shooting_star"></div>
-        <div class="shooting_star"></div>
-        <div class="shooting_star"></div>
-    </div>
+    <div id="star-field"></div>
+    
+    <div class="shooting-star" style="top: 10%; right: 10%; animation-delay: 0s;"></div>
+    <div class="shooting-star" style="top: 25%; left: 10%; animation-delay: 1.5s;"></div>
+    <div class="shooting-star" style="bottom: 15%; right: 20%; animation-delay: 3s;"></div>
+    <div class="shooting-star" style="top: 50%; right: -10%; animation-delay: 2s;"></div>
 
-    <div id="envelope-overlay" class="overlay">
-        <div class="envelope-content">
-            <div class="heart-seal">❤️</div>
-            <p class="click-instruction">Click the heart to see my note...</p>
-        </div>
+    <div id="envelope" class="overlay">
+        <div class="heart-seal">❤️</div>
+        <p class="instruction">Click the heart to open your note...</p>
     </div>
 
     <audio id="bg-music" loop>
         <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="floating-container hidden" id="main-section">
-        <div class="content-box">
-            <h1 class="message typewriter" id="typed-text">Will you go for coffee with me? ☕❤️</h1>
-            
-            <div class="buttons-wrapper">
-                <button id="yes-btn" class="btn bounce">YES 💕</button>
-                <button id="no-btn" class="btn no-bounce">NO 🙈</button>
-            </div>
+    <div id="main-card" class="content-box hidden">
+        <div class="message" id="typed-text"></div>
+        <div id="button-group" class="hidden">
+            <button id="yes-btn" class="btn yes">YES 💕</button>
+            <button id="no-btn" class="btn no">NO 🙈</button>
         </div>
     </div>
 
-    <div id="yes-content" class="floating-container hidden text-center">
-        <h1 class="message">Yay! I can't wait! 🥰💖</h1>
-        <p class="sub-message">I'll text you to figure out the details.</p>
-        <div class="hearts">❤️❤️❤️❤️❤️</div>
-    </div>
-
-    <div id="no-content" class="floating-container hidden text-center">
-        <h1 class="message">Ouch... my heart! 💔🥺</h1>
-        <p class="sub-message">That's okay, maybe next time!</p>
+    <div id="final-yes" class="content-box hidden">
+        <h1 class="message" style="font-size: 3rem;">Yay! I can't wait! 🥰💖</h1>
+        <p>I'll reach out soon to plan it.</p>
     </div>
 
     <script src="script.js"></script>
