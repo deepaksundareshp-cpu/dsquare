@@ -31,7 +31,7 @@ I’m someone who wants to learn and keep learning. Sometimes we don’t even re
 
 So... coffee? ☕`;
 
-    // 1. Star generator (400 stars)
+    // 1. Star generator
     const starField = document.getElementById('star-field');
     for (let i = 0; i < 400; i++) {
         let star = document.createElement('div');
@@ -43,16 +43,12 @@ So... coffee? ☕`;
         starField.appendChild(star);
     }
 
-    // 2. Open Envelope Transition
+    // 2. Open Transition
     overlay.addEventListener('click', () => {
-        // Force Audio Play
         music.volume = 0.4;
         music.play().catch(e => console.log("Audio play blocked", e));
-
-        // Animate tearing away
         icon.classList.add('envelope-tear');
         overlay.classList.add('fade-out');
-
         setTimeout(() => {
             overlay.style.display = 'none';
             mainCard.classList.remove('hidden');
@@ -60,19 +56,33 @@ So... coffee? ☕`;
         }, 1500);
     });
 
-    // 3. Typewriter logic
+    // 3. Typewriter with Fade Effect
     let charIndex = 0;
     function startTyping() {
         if (charIndex < fullText.length) {
-            typedText.textContent += fullText.charAt(charIndex);
+            // Create a span for the letter
+            const span = document.createElement('span');
+            span.className = 'letter';
+            span.textContent = fullText.charAt(charIndex);
+            typedText.appendChild(span);
+
+            // Set fade timer for this specific letter (5 seconds)
+            setTimeout(() => {
+                span.classList.add('fade-old');
+            }, 5000);
+
             charIndex++;
-            let speed = 60;
+            let speed = 65; 
             if (fullText.charAt(charIndex - 1) === '.' || fullText.charAt(charIndex - 1) === '?') speed = 600;
+            
+            // Keep the view scrolled to the latest letter
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            
             setTimeout(startTyping, speed);
         } else {
             setTimeout(() => {
                 btnGroup.classList.remove('hidden');
-            }, 800);
+            }, 1000);
         }
     }
 
