@@ -1,120 +1,75 @@
-/* Envelope Overlay Styling */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #fdf6e3;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    cursor: pointer;
-    transition: transform 1.2s ease-in-out, opacity 0.8s ease;
-}
+// REPLACE THESE WITH YOUR KEYS FROM EMAILJS
+const PUBLIC_KEY = "YOUR_PUBLIC_KEY"; // From Account tab
+const SERVICE_ID = "YOUR_SERVICE_ID"; // From Email Services tab
+const TEMPLATE_ID = "YOUR_TEMPLATE_ID"; // From Email Templates tab
 
-.envelope-content { text-align: center; }
+// 1. Initialize EmailJS
+emailjs.init(PUBLIC_KEY);
 
-.heart-seal {
-    font-size: 5rem;
-    animation: pulse 2s infinite;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-}
+document.addEventListener("DOMContentLoaded", function () {
+    const envelopeOverlay = document.getElementById("envelope-overlay");
+    const mainSection = document.getElementById("main-section");
+    const yesContent = document.getElementById("yes-content");
+    const noContent = document.getElementById("no-content");
+    const music = document.getElementById("bg-music");
+    const noBtn = document.getElementById("no-btn");
+    const yesBtn = document.getElementById("yes-btn");
 
-.click-instruction {
-    font-family: 'Caveat', cursive;
-    font-size: 1.8rem;
-    color: #4a4a4a;
-    margin-top: 20px;
-}
+    // 1. handle overlay interaction (activates music)
+    envelopeOverlay.addEventListener("click", function() {
+        envelopeOverlay.classList.add("open");
+        music.volume = 0.3; // Low background volume
+        music.play();
 
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
+        // Reveal the main section after envelope animation
+        setTimeout(() => {
+            envelopeOverlay.style.display = "none";
+            mainSection.classList.remove("hidden");
+        }, 1200);
+    });
 
-.overlay.open {
-    transform: translateY(-100%);
-    opacity: 0;
-}
+    // 2. Playful runaway NO button logic
+    function moveNoButton() {
+        // Calculate random position
+        const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+        const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+        
+        // Move button to position
+        noBtn.style.position = 'fixed';
+        noBtn.style.left = `${x}px`;
+        noBtn.style.top = `${y}px`;
+    }
 
-/* Page Background */
-body {
-    margin: 0;
-    padding: 0;
-    background: #fdf6e3;
-    background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
-    font-family: 'Inter', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow-x: hidden;
-}
+    noBtn.addEventListener('mouseover', moveNoButton);
+    noBtn.addEventListener('touchstart', moveNoButton);
 
-/* Notebook Container */
-.journal-container {
-    background: #ffffff;
-    width: 90%;
-    max-width: 600px;
-    padding: 50px 40px;
-    border-radius: 2px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    background-image: repeating-linear-gradient(transparent, transparent 31px, #e8d5d5 31px, #e8d5d5 32px);
-    line-height: 32px;
-    border-left: 5px solid #ffb6c1;
-    position: relative;
-    z-index: 10;
-}
+    // 3. Email Sending Function
+    function sendNotification(responseString) {
+        const templateParams = {
+            user_response: responseString,
+            click_time: new Date().toLocaleString()
+        };
 
-.title {
-    font-family: 'Caveat', cursive;
-    font-size: 3rem;
-    text-align: center;
-    color: #4a4a4a;
-}
+        emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+            }, function(error) {
+                console.log('FAILED...', error);
+            });
+    }
 
-.journal-text {
-    font-family: 'Caveat', cursive;
-    font-size: 1.6rem;
-    color: #444;
-    white-space: pre-line;
-}
+    // 4. Handle YES button click
+    yesBtn.addEventListener("click", function () {
+        mainSection.classList.add("hidden");
+        yesContent.classList.remove("hidden");
+        sendNotification('YES! 💕');
+    });
 
-.coffee-section { margin-top: 40px; text-align: center; }
-.coffee-question { font-family: 'Caveat', cursive; font-size: 2.2rem; }
+    // 5. Handle NO button click (In case she catches it)
+    noBtn.addEventListener("click", function () {
+        mainSection.classList.add("hidden");
+        noContent.classList.remove("hidden");
+        sendNotification('NO 🙈');
+    });
 
-.buttons { display: flex; justify-content: center; gap: 20px; min-height: 60px; }
-
-.btn {
-    padding: 10px 30px;
-    border-radius: 25px;
-    font-family: 'Inter', sans-serif;
-    cursor: pointer;
-    font-size: 1.1rem;
-    border: 1px solid #4a4a4a;
-    transition: transform 0.2s;
-}
-
-.primary { background: #ffb6c1; color: white; border: none; }
-.secondary { background: #f0f0f0; color: #555; position: relative; }
-
-.bounce { animation: bounce 2s infinite; }
-@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-
-/* Background Deco */
-.sticker { position: absolute; font-size: 2.5rem; opacity: 0.6; z-index: 1; }
-.s1 { top: 10%; left: 5%; } .s2 { top: 15%; right: 5%; }
-.s3 { bottom: 10%; left: 8%; } .s4 { bottom: 15%; right: 8%; }
-
-.hidden { display: none !important; }
-
-.response { text-align: center; animation: fadeIn 1s; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-.hearts { font-size: 2rem; margin-top: 15px; }
-
-@media (max-width: 600px) {
-    .journal-container { padding: 30px 20px; width: 85%; }
-}
+});
