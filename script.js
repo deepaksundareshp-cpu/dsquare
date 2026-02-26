@@ -1,4 +1,4 @@
-// REPLACE WITH YOUR EMAILJS KEYS
+// ENTER YOUR EMAILJS KEYS HERE
 const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
 const SERVICE_ID = "YOUR_SERVICE_ID";
 const TEMPLATE_ID = "YOUR_TEMPLATE_ID";
@@ -31,52 +31,72 @@ I’m someone who wants to learn and keep learning. Sometimes we don’t even re
 
 So... coffee? ☕`;
 
-    // 1. Star generator
+    // 1. Multicolored Star Generator
     const starField = document.getElementById('star-field');
+    const starColors = ['#ffffff', '#ffb3b3', '#b3ffb3', '#ffffb3']; // White, soft red, soft green, soft yellow
+    
     for (let i = 0; i < 400; i++) {
         let star = document.createElement('div');
         star.className = 'star';
         star.style.top = Math.random() * 100 + 'vh';
         star.style.left = Math.random() * 100 + 'vw';
         star.style.width = star.style.height = (Math.random() * 2 + 1) + 'px';
+        star.style.backgroundColor = starColors[Math.floor(Math.random() * starColors.length)];
         star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
         starField.appendChild(star);
     }
 
-    // 2. Open Transition
+    // 2. Shooting Stars Generator
+    function launchShootingStar() {
+        const sStar = document.createElement('div');
+        sStar.className = 'shooting-star';
+        sStar.style.left = (Math.random() * 80 + 20) + 'vw';
+        sStar.style.top = (Math.random() * 40) + 'vh';
+        sStar.style.width = (Math.random() * 100 + 150) + 'px';
+        starField.appendChild(sStar);
+
+        const animation = sStar.animate([
+            { transform: 'translateX(0) translateY(0) rotate(-45deg)', opacity: 1 },
+            { transform: 'translateX(-1000px) translateY(1000px) rotate(-45deg)', opacity: 0 }
+        ], { duration: 2500, easing: 'linear' });
+
+        animation.onfinish = () => sStar.remove();
+    }
+    // Launch a shooting star every 5 seconds
+    setInterval(launchShootingStar, 5000);
+
+    // 3. Envelope Tear & Transition
     overlay.addEventListener('click', () => {
         music.volume = 0.4;
-        music.play().catch(e => console.log("Audio play blocked", e));
+        music.play().catch(e => console.log("Audio trigger failed:", e));
+        
         icon.classList.add('envelope-tear');
         overlay.classList.add('fade-out');
+
         setTimeout(() => {
             overlay.style.display = 'none';
             mainCard.classList.remove('hidden');
             startTyping();
-        }, 1500);
+        }, 1800);
     });
 
-    // 3. Typewriter with Fade Effect
+    // 4. Rising Typewriter with Letter Fade
     let charIndex = 0;
     function startTyping() {
         if (charIndex < fullText.length) {
-            // Create a span for the letter
             const span = document.createElement('span');
             span.className = 'letter';
             span.textContent = fullText.charAt(charIndex);
             typedText.appendChild(span);
 
-            // Set fade timer for this specific letter (5 seconds)
+            // Start fading after 4 seconds
             setTimeout(() => {
                 span.classList.add('fade-old');
-            }, 5000);
+            }, 4000);
 
             charIndex++;
-            let speed = 65; 
+            let speed = 65;
             if (fullText.charAt(charIndex - 1) === '.' || fullText.charAt(charIndex - 1) === '?') speed = 600;
-            
-            // Keep the view scrolled to the latest letter
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
             
             setTimeout(startTyping, speed);
         } else {
@@ -86,7 +106,7 @@ So... coffee? ☕`;
         }
     }
 
-    // 4. Runaway No Button
+    // 5. Runaway Button logic
     noBtn.addEventListener('mouseover', () => {
         const x = Math.random() * (window.innerWidth - 150);
         const y = Math.random() * (window.innerHeight - 80);
@@ -95,10 +115,10 @@ So... coffee? ☕`;
         noBtn.style.top = y + 'px';
     });
 
-    // 5. Final Action
     yesBtn.addEventListener('click', () => {
         mainCard.classList.add('hidden');
         document.getElementById('final-yes').classList.remove('hidden');
+        
         emailjs.send(SERVICE_ID, TEMPLATE_ID, {
             user_response: "YES 💕",
             click_time: new Date().toLocaleString()
