@@ -10,6 +10,17 @@
 </head>
 <body>
 
+    <div id="envelope-overlay" class="overlay">
+        <div class="envelope-content">
+            <div class="heart-seal">❤️</div>
+            <p class="click-instruction">Click the heart to open your note...</p>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="sticker s1">📚</div>
     <div class="sticker s2">✨</div>
     <div class="sticker s3">🖋️</div>
@@ -17,14 +28,13 @@
 
     <div class="journal-container">
         <h1 class="title">A Small Note</h1>
-
         <p id="typed-text" class="journal-text"></p>
 
         <div class="coffee-section hidden" id="coffee-section">
-            <h2 class="coffee-question">Will you go for coffee with me? ☕</h2>
+            <h2 class="coffee-question">Will you go for coffee with me? ☕❤️</h2>
             <div class="buttons">
                 <button id="yes-btn" class="btn primary bounce">YES 💕</button>
-                <button id="no-btn" class="btn secondary">NO 🙂‍↔️</button>
+                <button id="no-btn" class="btn secondary">NO 🙈</button>
             </div>
         </div>
 
