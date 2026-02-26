@@ -1,3 +1,4 @@
+// ENTER YOUR EMAILJS KEYS
 const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
 const SERVICE_ID = "YOUR_SERVICE_ID";
 const TEMPLATE_ID = "YOUR_TEMPLATE_ID";
@@ -6,79 +7,65 @@ emailjs.init(PUBLIC_KEY);
 
 document.addEventListener("DOMContentLoaded", function () {
     const overlay = document.getElementById('envelope-overlay');
+    const nebula = document.getElementById('nebula');
     const starField = document.getElementById('star-field');
     const typedText = document.getElementById('typed-text');
     const music = document.getElementById('bg-music');
     const particleContainer = document.getElementById('cursor-particle-container');
 
-    // 1. Colorful Star Generator with Parallax data
-    const starColors = ['#ffffff', '#ffdfdf', '#dfffd6', '#fffed6'];
+    // Generate Stars
     const stars = [];
-    
     for (let i = 0; i < 400; i++) {
         let star = document.createElement('div');
-        star.className = 'star';
-        let x = Math.random() * 100;
-        let y = Math.random() * 100;
+        star.style.position = 'absolute';
+        star.style.backgroundColor = ['#fff','#ffdfdf','#dfffd6','#fffed6'][Math.floor(Math.random()*4)];
+        star.style.borderRadius = '50%';
+        star.style.width = star.style.height = (Math.random()*2+1)+'px';
+        let x = Math.random()*100;
+        let y = Math.random()*100;
         star.style.left = x + 'vw';
         star.style.top = y + 'vh';
-        star.style.width = star.style.height = (Math.random() * 2 + 1) + 'px';
-        star.style.backgroundColor = starColors[Math.floor(Math.random() * starColors.length)];
-        star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
         starField.appendChild(star);
-        stars.push({ el: star, x, y, speed: Math.random() * 2 });
+        stars.push({el: star, speed: Math.random()*2.5 + 1});
     }
 
-    // 2. Parallax Effect: Stars drift when mouse moves
+    // --- INTERACTIVE MOUSE LOGIC ---
     window.addEventListener('mousemove', (e) => {
-        let moveX = (e.clientX / window.innerWidth) - 0.5;
-        let moveY = (e.clientY / window.innerHeight) - 0.5;
-        
-        stars.forEach(s => {
-            s.el.style.transform = `translate(${moveX * s.speed * 20}px, ${moveY * s.speed * 20}px)`;
-        });
+        let mouseX = (e.clientX / window.innerWidth) - 0.5;
+        let mouseY = (e.clientY / window.innerHeight) - 0.5;
 
-        // 3. Stardust Cursor Trail
-        if (Math.random() > 0.8) { // Only create sometimes for performance
+        // Parallax Movement
+        stars.forEach(s => {
+            s.el.style.transform = `translate(${mouseX * s.speed * 25}px, ${mouseY * s.speed * 25}px)`;
+        });
+        nebula.style.transform = `translate(${mouseX * 50}px, ${mouseY * 50}px)`;
+
+        // Spawn Stardust
+        if (Math.random() > 0.7) {
             const p = document.createElement('div');
             p.className = 'particle';
             p.style.left = e.clientX + 'px';
             p.style.top = e.clientY + 'px';
-            p.style.width = p.style.height = Math.random() * 4 + 'px';
+            p.style.width = p.style.height = (Math.random() * 6 + 2) + 'px';
             particleContainer.appendChild(p);
-            setTimeout(() => p.remove(), 1000);
+            setTimeout(() => p.remove(), 1100);
         }
     });
 
-    // 4. Shooting Stars
-    setInterval(() => {
-        const sStar = document.createElement('div');
-        sStar.className = 'shooting-star';
-        sStar.style.left = (Math.random() * 80 + 20) + 'vw';
-        sStar.style.top = (Math.random() * 40) + 'vh';
-        sStar.style.width = (Math.random() * 100 + 150) + 'px';
-        starField.appendChild(sStar);
-        sStar.animate([
-            { transform: 'translateX(0) translateY(0) rotate(-45deg)', opacity: 1 },
-            { transform: 'translateX(-1000px) translateY(1000px) rotate(-45deg)', opacity: 0 }
-        ], { duration: 2500 });
-        setTimeout(() => sStar.remove(), 2500);
-    }, 5000);
-
-    // 5. Open Envelope
+    // --- ENVELOPE OPENING ---
     overlay.addEventListener('click', () => {
         music.volume = 0.4;
-        music.play();
-        document.getElementById('envelope-icon').classList.add('envelope-tear');
+        music.play().catch(() => {});
+        document.getElementById('envelope-icon').style.transform = 'translateY(-120vh) rotate(30deg) scale(2)';
         overlay.classList.add('fade-out');
         setTimeout(() => {
             overlay.style.display = 'none';
             document.getElementById('main-card').classList.remove('hidden');
             startTyping();
-        }, 1800);
+        }, 1600);
     });
 
-    // 6. Typing Logic
+    // --- RISING TYPEWRITER LOGIC ---
     const fullText = `There’s something called journaling… it’s about preserving something personal. And I genuinely want to thank you for teaching me that.
 
 I never used to write things down, especially not my dreams. I realized that the first few minutes after waking up are important. If I let other thoughts enter my mind, the dream slowly fades away.
@@ -109,22 +96,23 @@ So... coffee? ☕`;
                 setTimeout(() => span.classList.add('fade-old'), 5000);
             }
             charIndex++;
-            setTimeout(startTyping, char === '.' ? 600 : 55);
+            setTimeout(startTyping, char === '.' ? 600 : 50);
         } else {
-            setTimeout(() => document.getElementById('button-group').classList.remove('hidden'), 1000);
+            document.getElementById('button-group').classList.remove('hidden');
         }
     }
 
-    // 7. Buttons & Final Action
+    // --- NO BUTTON RUNAWAY ---
     document.getElementById('no-btn').addEventListener('mouseover', function() {
         this.style.position = 'fixed';
-        this.style.left = Math.random() * (window.innerWidth - 150) + 'px';
-        this.style.top = Math.random() * (window.innerHeight - 80) + 'px';
+        this.style.left = Math.random() * 70 + 'vw';
+        this.style.top = Math.random() * 70 + 'vh';
     });
 
+    // --- FINAL YES ACTION ---
     document.getElementById('yes-btn').addEventListener('click', () => {
         document.getElementById('main-card').classList.add('hidden');
         document.getElementById('final-yes').classList.remove('hidden');
-        emailjs.send(SERVICE_ID, TEMPLATE_ID, { user_response: "YES 💕" });
+        emailjs.send(SERVICE_ID, TEMPLATE_ID, { response: "YES 💕" });
     });
 });
