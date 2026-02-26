@@ -1,4 +1,4 @@
-// REPLACE THESE WITH YOUR KEYS
+// ENTER YOUR EMAILJS KEYS HERE
 const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
 const SERVICE_ID = "YOUR_SERVICE_ID";
 const TEMPLATE_ID = "YOUR_TEMPLATE_ID";
@@ -30,27 +30,29 @@ I’m someone who wants to learn and keep learning. Sometimes we don’t even re
 
 So... coffee? ☕`;
 
-    // Generate 300 stars
+    // Increased to 400 stars for a "Starry Night" feel
     const starField = document.getElementById('star-field');
-    for (let i = 0; i < 300; i++) {
+    for (let i = 0; i < 400; i++) {
         let star = document.createElement('div');
         star.className = 'star';
         star.style.top = Math.random() * 100 + 'vh';
         star.style.left = Math.random() * 100 + 'vw';
-        star.style.width = star.style.height = Math.random() * 2 + 'px';
+        star.style.width = star.style.height = (Math.random() * 2 + 1) + 'px';
         star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
         starField.appendChild(star);
     }
 
+    // Audio triggers specifically upon clicking the heart
     envelope.addEventListener('click', () => {
         envelope.style.opacity = '0';
+        music.volume = 0.4; 
+        music.play().catch(e => console.log("Audio play failed:", e));
+
         setTimeout(() => {
             envelope.classList.add('hidden');
             mainCard.classList.remove('hidden');
-            music.volume = 0.3;
-            music.play();
             startTyping();
-        }, 1000);
+        }, 1200);
     });
 
     let i = 0;
@@ -58,13 +60,14 @@ So... coffee? ☕`;
         if (i < fullText.length) {
             typedText.textContent += fullText.charAt(i);
             i++;
-            let speed = 60; 
-            if (fullText.charAt(i-1) === '.' || fullText.charAt(i-1) === '?') speed = 500;
+            let speed = 55; 
+            if (fullText.charAt(i-1) === '.' || fullText.charAt(i-1) === '?') speed = 600;
+            if (fullText.charAt(i-1) === ',') speed = 300;
             setTimeout(startTyping, speed);
         } else {
             setTimeout(() => {
                 btnGroup.classList.remove('hidden');
-            }, 800);
+            }, 1000);
         }
     }
 
@@ -72,8 +75,8 @@ So... coffee? ☕`;
     noBtn.addEventListener('touchstart', moveButton);
 
     function moveButton() {
-        const x = Math.random() * (window.innerWidth - 120);
-        const y = Math.random() * (window.innerHeight - 60);
+        const x = Math.random() * (window.innerWidth - 150);
+        const y = Math.random() * (window.innerHeight - 80);
         noBtn.style.position = 'fixed';
         noBtn.style.left = x + 'px';
         noBtn.style.top = y + 'px';
