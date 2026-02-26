@@ -2,67 +2,79 @@ body, html {
     background-color: #000000;
     margin: 0; padding: 0;
     height: 100vh; width: 100vw;
-    overflow-x: hidden;
+    overflow: hidden; /* No scrolling allowed */
     font-family: 'Caveat', cursive;
     display: flex; justify-content: center; align-items: center;
 }
 
-/* White Initial Screen */
+/* Initial White Transition */
 .white-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background-color: #ffffff;
     z-index: 1000;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     cursor: pointer;
-    transition: opacity 1.5s ease-in-out;
+    transition: opacity 1.8s ease-in-out;
 }
 
-.envelope-icon { font-size: 6rem; transition: transform 1s ease-in-out, opacity 1s; }
+.envelope-icon { font-size: 6rem; transition: transform 1.2s ease-in-out, opacity 1s; }
 .tear-instruction { margin-top: 20px; font-size: 1.8rem; color: #4a4a4a; }
 
-/* Stars */
+/* Celestial Elements */
 .star {
-    position: absolute; background: white; border-radius: 50%;
+    position: absolute; border-radius: 50%;
     opacity: 0.4; animation: twinkle var(--duration) infinite;
 }
 @keyframes twinkle {
     0%, 100% { opacity: 0.2; transform: scale(1); }
-    50% { opacity: 0.7; transform: scale(1.2); }
+    50% { opacity: 0.9; transform: scale(1.3); }
 }
 
-/* Fading Letter Logic */
+.shooting-star {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,1), rgba(255,255,255,0));
+    opacity: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* The Rising Text logic */
+.content-box {
+    position: relative; z-index: 10;
+    text-align: center;
+    max-width: 800px; width: 85%;
+    height: 70vh; /* Fixed window for the text */
+    display: flex; flex-direction: column; justify-content: flex-end; /* New text stays at bottom */
+    padding-bottom: 40px;
+}
+
+.message { 
+    font-size: 2rem; line-height: 1.6; 
+    white-space: pre-line;
+    display: flex; flex-direction: column;
+}
+
 .letter {
     display: inline;
-    transition: opacity 6s ease-in-out, color 6s ease-in-out;
+    transition: opacity 5s ease-in-out, color 5s ease-in-out;
     color: #d1d1d1;
 }
 
 .fade-old {
-    opacity: 0.1; /* Text becomes almost invisible */
-    color: #333 !important; /* Dulls the color significantly */
+    opacity: 0.05 !important;
+    color: #222 !important;
 }
 
-.content-box {
-    position: relative; z-index: 10;
-    padding: 20px; text-align: center;
-    max-width: 700px; width: 90%;
-}
-
-.message { 
-    font-size: 2rem; line-height: 1.6; margin-bottom: 30px; 
-    white-space: pre-line;
-}
-
-/* Buttons */
+/* UI Elements */
 .btn {
     font-family: 'Caveat', cursive; font-size: 1.7rem;
     padding: 10px 40px; border-radius: 30px; border: none;
     cursor: pointer; margin: 15px; transition: 0.3s;
 }
-.yes { background: #ffb6c1; color: white; opacity: 0.9; }
-.no { background: #ffffff; color: #333; opacity: 0.8; }
+.yes { background: #ffb6c1; color: white; box-shadow: 0 0 10px rgba(255, 182, 193, 0.4); }
+.no { background: #ffffff; color: #333; }
 
-/* Animations */
 .hidden { display: none !important; }
 .fade-out { opacity: 0 !important; pointer-events: none; }
 .envelope-tear { transform: translateY(-100vh) rotate(15deg); opacity: 0; }
