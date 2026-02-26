@@ -1,4 +1,4 @@
-// ENTER YOUR EMAILJS KEYS HERE
+// REPLACE WITH YOUR EMAILJS KEYS
 const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
 const SERVICE_ID = "YOUR_SERVICE_ID";
 const TEMPLATE_ID = "YOUR_TEMPLATE_ID";
@@ -33,7 +33,7 @@ So... coffee? ☕`;
 
     // 1. Multicolored Star Generator
     const starField = document.getElementById('star-field');
-    const starColors = ['#ffffff', '#ffb3b3', '#b3ffb3', '#ffffb3']; // White, soft red, soft green, soft yellow
+    const colors = ['#ffffff', '#ffdfdf', '#dfffd6', '#fffed6']; // White, Red, Green, Yellow tint
     
     for (let i = 0; i < 400; i++) {
         let star = document.createElement('div');
@@ -41,12 +41,12 @@ So... coffee? ☕`;
         star.style.top = Math.random() * 100 + 'vh';
         star.style.left = Math.random() * 100 + 'vw';
         star.style.width = star.style.height = (Math.random() * 2 + 1) + 'px';
-        star.style.backgroundColor = starColors[Math.floor(Math.random() * starColors.length)];
+        star.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
         star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
         starField.appendChild(star);
     }
 
-    // 2. Shooting Stars Generator
+    // 2. Shooting Stars
     function launchShootingStar() {
         const sStar = document.createElement('div');
         sStar.className = 'shooting-star';
@@ -55,20 +55,19 @@ So... coffee? ☕`;
         sStar.style.width = (Math.random() * 100 + 150) + 'px';
         starField.appendChild(sStar);
 
-        const animation = sStar.animate([
+        const anim = sStar.animate([
             { transform: 'translateX(0) translateY(0) rotate(-45deg)', opacity: 1 },
             { transform: 'translateX(-1000px) translateY(1000px) rotate(-45deg)', opacity: 0 }
         ], { duration: 2500, easing: 'linear' });
 
-        animation.onfinish = () => sStar.remove();
+        anim.onfinish = () => sStar.remove();
     }
-    // Launch a shooting star every 5 seconds
     setInterval(launchShootingStar, 5000);
 
-    // 3. Envelope Tear & Transition
+    // 3. Open Transition
     overlay.addEventListener('click', () => {
-        music.volume = 0.4;
-        music.play().catch(e => console.log("Audio trigger failed:", e));
+        music.volume = 0.5;
+        music.play().catch(e => console.log("Audio trigger blocked", e));
         
         icon.classList.add('envelope-tear');
         overlay.classList.add('fade-out');
@@ -80,23 +79,30 @@ So... coffee? ☕`;
         }, 1800);
     });
 
-    // 4. Rising Typewriter with Letter Fade
+    // 4. Fixed Typewriter Logic
     let charIndex = 0;
     function startTyping() {
         if (charIndex < fullText.length) {
-            const span = document.createElement('span');
-            span.className = 'letter';
-            span.textContent = fullText.charAt(charIndex);
-            typedText.appendChild(span);
-
-            // Start fading after 4 seconds
-            setTimeout(() => {
-                span.classList.add('fade-old');
-            }, 4000);
+            const char = fullText.charAt(charIndex);
+            
+            if (char === '\n') {
+                const br = document.createElement('br');
+                typedText.appendChild(br);
+            } else {
+                const span = document.createElement('span');
+                span.className = 'letter';
+                span.textContent = char;
+                typedText.appendChild(span);
+                
+                // Slowly fade old letters
+                setTimeout(() => {
+                    span.classList.add('fade-old');
+                }, 5000);
+            }
 
             charIndex++;
-            let speed = 65;
-            if (fullText.charAt(charIndex - 1) === '.' || fullText.charAt(charIndex - 1) === '?') speed = 600;
+            let speed = 55;
+            if (fullText.charAt(charIndex - 1) === '.') speed = 600;
             
             setTimeout(startTyping, speed);
         } else {
@@ -106,7 +112,7 @@ So... coffee? ☕`;
         }
     }
 
-    // 5. Runaway Button logic
+    // 5. Runaway No Button
     noBtn.addEventListener('mouseover', () => {
         const x = Math.random() * (window.innerWidth - 150);
         const y = Math.random() * (window.innerHeight - 80);
@@ -115,10 +121,10 @@ So... coffee? ☕`;
         noBtn.style.top = y + 'px';
     });
 
+    // 6. Final Action
     yesBtn.addEventListener('click', () => {
         mainCard.classList.add('hidden');
         document.getElementById('final-yes').classList.remove('hidden');
-        
         emailjs.send(SERVICE_ID, TEMPLATE_ID, {
             user_response: "YES 💕",
             click_time: new Date().toLocaleString()
