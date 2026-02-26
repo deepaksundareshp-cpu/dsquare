@@ -3,17 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Small Note...</title>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <title>A Celestial Invitation...</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 
+    <div id="stars-container">
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+        <div class="shooting_star"></div>
+        <div class="shooting_star"></div>
+        <div class="shooting_star"></div>
+        <div class="shooting_star"></div>
+    </div>
+
     <div id="envelope-overlay" class="overlay">
         <div class="envelope-content">
             <div class="heart-seal">❤️</div>
-            <p class="click-instruction">Click the heart to open your note...</p>
+            <p class="click-instruction">Click the heart to see my note...</p>
         </div>
     </div>
 
@@ -21,33 +31,26 @@
         <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="sticker s1">📚</div>
-    <div class="sticker s2">✨</div>
-    <div class="sticker s3">🖋️</div>
-    <div class="sticker s4">🌸</div>
-
-    <div class="journal-container">
-        <h1 class="title">A Small Note</h1>
-        <p id="typed-text" class="journal-text"></p>
-
-        <div class="coffee-section hidden" id="coffee-section">
-            <h2 class="coffee-question">Will you go for coffee with me? ☕❤️</h2>
-            <div class="buttons">
-                <button id="yes-btn" class="btn primary bounce">YES 💕</button>
-                <button id="no-btn" class="btn secondary">NO 🙈</button>
+    <div class="floating-container hidden" id="main-section">
+        <div class="content-box">
+            <h1 class="message typewriter" id="typed-text">Will you go for coffee with me? ☕❤️</h1>
+            
+            <div class="buttons-wrapper">
+                <button id="yes-btn" class="btn bounce">YES </button>
+                <button id="no-btn" class="btn no-bounce">NO </button>
             </div>
         </div>
+    </div>
 
-        <div id="yes-content" class="response hidden">
-            <h2 class="title">I'd really like that. 🥰</h2>
-            <p>I'll reach out soon to plan it. Can't wait!</p>
-            <div class="hearts">❤️❤️❤️</div>
-        </div>
+    <div id="yes-content" class="floating-container hidden text-center">
+        <h1 class="message">Yay! I can't wait! 🥰💖</h1>
+        <p class="sub-message">I'll text you to figure out the details.</p>
+        <div class="hearts">❤️❤️❤️❤️❤️</div>
+    </div>
 
-        <div id="no-content" class="response hidden">
-            <h2 class="title">That's okay. 🥺</h2>
-            <p>Still, thank you for reading this and being honest.</p>
-        </div>
+    <div id="no-content" class="floating-container hidden text-center">
+        <h1 class="message">Ouch... my heart! 💔🥺</h1>
+        <p class="sub-message">That's okay, maybe next time!</p>
     </div>
 
     <script src="script.js"></script>
