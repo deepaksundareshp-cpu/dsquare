@@ -9,19 +9,19 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
-    <div id="star-field"></div>
-    <div class="shooting-star" style="top: 10%; right: 10%; animation-delay: 0s;"></div>
-    <div class="shooting-star" style="top: 25%; left: 10%; animation-delay: 1.5s;"></div>
-    <div class="shooting-star" style="bottom: 15%; right: 20%; animation-delay: 3s;"></div>
-    <div class="shooting-star" style="top: 50%; right: -10%; animation-delay: 2.2s;"></div>
 
-    <div id="envelope" class="overlay">
-        <div class="heart-seal">❤️</div>
-        <p class="instruction">Click the heart to open your note...</p>
+    <div id="envelope-overlay" class="white-overlay">
+        <div id="envelope-icon" class="envelope-icon">✉️</div>
+        <p class="tear-instruction">Tare the envolpe to see the note...</p>
     </div>
 
+    <div id="star-field"></div>
+    
+    <div class="shooting-star" style="top: 10%; right: 10%; animation-delay: 0s;"></div>
+    <div class="shooting-star" style="top: 50%; right: -10%; animation-delay: 2s;"></div>
+
     <audio id="bg-music" loop>
-        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
     <div id="main-card" class="content-box hidden">
@@ -33,8 +33,8 @@
     </div>
 
     <div id="final-yes" class="content-box hidden">
-        <h1 class="message" style="font-size: 3rem;">Yay! I can't wait! 🥰💖</h1>
-        <p>I'll reach out soon to plan it.</p>
+        <h1 class="message" style="font-size: 3rem; color: #fff;">Yay! I can't wait! 🥰💖</h1>
+        <p style="font-size: 1.5rem;">I'll reach out soon to plan it.</p>
     </div>
 
     <script src="script.js"></script>
