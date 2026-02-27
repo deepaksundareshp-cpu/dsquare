@@ -16,6 +16,19 @@ body, html {
                 radial-gradient(circle at 20% 20%, #ff4500, transparent 60%);
 }
 
+/* Stardust Mouse Effect */
+.cursor-particle {
+    position: fixed; width: 4px; height: 4px; background: white;
+    border-radius: 50%; pointer-events: none; z-index: 9999;
+    box-shadow: 0 0 10px #fff, 0 0 15px #00fbff;
+    animation: particleFade 1.2s ease-out forwards;
+}
+
+@keyframes particleFade {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+}
+
 .white-overlay { 
     position: fixed; inset: 0; z-index: 9999; background: #fff; 
     display: flex; justify-content: center; align-items: center; cursor: pointer; 
@@ -37,15 +50,11 @@ body, html {
 }
 
 #typed-text { transition: transform 1s ease-in-out; }
-
-/* SMALLER FONT SIZE */
 .message { font-size: 1.8rem; color: #fff; line-height: 1.6; }
-
-/* FAST FADE (Changed from 4s to 2s) */
 .letter { transition: opacity 2s ease; display: inline-block; white-space: pre; }
 .fade-out { opacity: 0 !important; }
 
-/* BIG BANG & METEORS */
+/* Cinematic Finale */
 .heavy-meteor {
     position: fixed; width: 55px; height: 55px;
     background: radial-gradient(circle at 30% 30%, #fff, #ffae00 40%, #000);
