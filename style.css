@@ -10,28 +10,31 @@ body, html {
     z-index: -2; 
 }
 
-#starCanvas { position: fixed; top: 0; left: 0; z-index: -1; }
+#starCanvas { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+}
 
 /* THE ECHO REVEAL TEXT */
 #reveal-area {
-    width: 85%; max-width: 700px; margin: 60px auto;
-    font-size: 1.6rem; /* Reduced font size as requested */
+    width: 85%; max-width: 650px; margin: 50px auto;
+    font-size: 1.4rem; /* Even smaller, more elegant font size */
     line-height: 1.5; text-align: center;
     pointer-events: none;
+    z-index: 10;
 }
 
 .word {
     display: inline-block; margin-right: 6px;
-    opacity: 0.05;
-    transition: opacity 1.2s ease, transform 0.8s ease;
-    filter: blur(4px);
+    opacity: 0.03; /* Lower base opacity for better reveal contrast */
+    transition: opacity 1s ease, transform 0.8s ease, filter 1s ease;
+    filter: blur(5px);
 }
 
 .word.lit {
     opacity: 1; filter: blur(0px);
     transform: scale(1.05);
     color: #fff;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
 }
 
 /* PAPER RIP */
@@ -39,8 +42,8 @@ body, html {
     position: fixed; top: 0; width: 51%; height: 100%; background: #fff; 
     z-index: 1001; transition: transform 1.5s cubic-bezier(0.7, 0, 0.3, 1); 
 }
-#paper-left { left: 0; border-right: 1px solid #eee; }
-#paper-right { right: 0; border-left: 1px solid #eee; }
+#paper-left { left: 0; border-right: 1px solid #ddd; }
+#paper-right { right: 0; border-left: 1px solid #ddd; }
 .rip-left { transform: translateX(-100%); }
 .rip-right { transform: translateX(100%); }
 
@@ -52,15 +55,14 @@ body, html {
 #envelope-icon { font-size: 5rem; margin-bottom: 20px; }
 
 .btn { 
-    font-family: 'Caveat'; font-size: 1.6rem; padding: 10px 35px; 
+    font-family: 'Caveat'; font-size: 1.5rem; padding: 10px 30px; 
     border-radius: 40px; border: none; cursor: pointer; margin: 15px; 
 }
-.yes { background: #ffb6c1; color: #fff; box-shadow: 0 0 15px rgba(255,182,193,0.4); transition: 0.3s; }
-.yes:hover { transform: scale(1.1); }
-.no { background: #444; color: #fff; }
+.yes { background: #ffb6c1; color: #fff; box-shadow: 0 0 15px rgba(255,182,193,0.4); }
+.no { background: #333; color: #fff; }
 
 .hidden { display: none !important; }
-.fade-in-delayed { opacity: 0; animation: fadeIn 4s forwards; animation-delay: 8s; text-align: center; }
+.fade-in-delayed { opacity: 0; animation: fadeIn 3s forwards; animation-delay: 5s; text-align: center; }
 @keyframes fadeIn { to { opacity: 1; } }
 
 .content-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%; }
