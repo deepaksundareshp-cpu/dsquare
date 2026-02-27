@@ -1,66 +1,53 @@
 body, html { 
     background-color: #000; margin: 0; padding: 0; 
-    height: 100vh; width: 100vw; overflow-x: hidden; 
+    height: 100vh; width: 100vw; overflow: hidden; 
     font-family: 'Caveat', cursive; color: #fff;
 }
 
-#galaxy-bg {
-    position: fixed; inset: 0;
-    background: radial-gradient(circle at 50% 50%, #1a0033 0%, #000 100%);
-    z-index: -10; 
-    overflow: hidden;
+#nebula { 
+    position: fixed; inset: 0; 
+    background: radial-gradient(circle at 50% 50%, #0d001a, #000); 
+    z-index: -2; 
 }
 
-#star-field { position: absolute; inset: 0; z-index: -9; }
-
-.star {
-    position: absolute; background: #fff; border-radius: 50%;
-    box-shadow: 0 0 8px #fff, 0 0 15px rgba(255, 255, 255, 0.4);
-    animation: twinkle 3s infinite ease-in-out;
-}
-
-@keyframes twinkle {
-    0%, 100% { opacity: 0.2; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1.1); }
-}
-
-.shooting-star {
-    position: absolute; height: 3px;
-    background: linear-gradient(90deg, #fff, transparent);
-    z-index: -8; pointer-events: none;
-}
-
-#echo-container {
-    position: relative; z-index: 5;
-    padding: 100px 0; min-height: 100vh;
-    display: flex; flex-direction: column; align-items: center;
-}
-
+/* ECHO TEXT STYLES */
 #reveal-area {
-    width: 85%; max-width: 650px; margin: 0 auto;
+    width: 85%; max-width: 700px; margin: 80px auto;
     font-size: 1.6rem; line-height: 1.8; text-align: center;
-    color: #fff;
+    pointer-events: none;
 }
 
 .word {
-    display: inline-block; margin-right: 7px;
-    opacity: 0; filter: blur(12px);
-    transition: opacity 1.2s ease, filter 1s ease;
+    display: inline-block; margin-right: 6px;
+    opacity: 0; filter: blur(10px);
+    transition: opacity 1.2s ease, filter 1.2s ease, transform 0.8s ease;
 }
 
-.word.lit { opacity: 1; filter: blur(0px); text-shadow: 0 0 10px #fff; }
+.word.lit {
+    opacity: 1; filter: blur(0px);
+    transform: scale(1.05);
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
 
-#button-group { margin-top: 50px; text-align: center; transition: opacity 1s; }
-.hidden-btn { opacity: 0; pointer-events: none; }
-.show-btn { opacity: 1 !important; pointer-events: all !important; }
+/* STARS & SHOOTING STARS */
+.star { position: absolute; background: #fff; border-radius: 50%; box-shadow: 0 0 5px #fff; z-index: -1; }
+.shooting-star { position: absolute; background: linear-gradient(90deg, #fff, transparent); z-index: 50; pointer-events: none; opacity: 0; }
+.star-large { height: 3px; box-shadow: 0 0 15px #fff; }
 
-.btn { font-family: 'Caveat'; font-size: 1.8rem; padding: 12px 40px; border-radius: 40px; border: none; cursor: pointer; margin: 10px; }
-.yes { background: #ffb6c1; color: #fff; box-shadow: 0 0 20px rgba(255,182,193,0.5); }
+/* PARTICLES */
+.particle { 
+    position: fixed; background: #fff; border-radius: 50%; z-index: 1000; 
+    pointer-events: none; animation: sparkle 0.8s linear forwards; 
+}
+@keyframes sparkle { 100% { transform: scale(0); opacity: 0; } }
 
-.paper-half { position: fixed; top: 0; width: 51%; height: 100%; background: #fff; z-index: 100; transition: transform 1.5s ease; }
-#paper-left { left: 0; border-right: 1px solid #ddd; } #paper-right { right: 0; }
+/* TRANSITIONS */
+.paper-half { position: fixed; top: 0; width: 51%; height: 100%; background: #fff; z-index: 1001; transition: transform 1.5s cubic-bezier(0.7, 0, 0.3, 1); }
+#paper-left { left: 0; } #paper-right { right: 0; }
 .rip-left { transform: translateX(-100%); } .rip-right { transform: translateX(100%); }
 
-.white-overlay { position: fixed; inset: 0; z-index: 110; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #333; cursor: pointer; background: #fff; }
+.white-overlay { position: fixed; inset: 0; z-index: 1005; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #333; cursor: pointer; background: #fff; }
+.btn { font-family: 'Caveat'; font-size: 1.5rem; padding: 10px 30px; border-radius: 30px; border: none; cursor: pointer; margin: 15px; }
+.yes { background: #ffb6c1; color: #fff; }
 .hidden { display: none !important; }
-.content-box { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: #000; z-index: 200; }
