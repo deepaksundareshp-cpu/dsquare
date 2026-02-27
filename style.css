@@ -10,6 +10,10 @@ body, html {
     z-index: -2; 
 }
 
+#star-field {
+    position: fixed; inset: 0; z-index: -1;
+}
+
 /* ECHO TEXT STYLES */
 #reveal-area {
     width: 85%; max-width: 700px; margin: 80px auto;
@@ -30,10 +34,16 @@ body, html {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
 }
 
+/* STATIC STARS */
+.star { 
+    position: absolute; background: #fff; border-radius: 50%; 
+    box-shadow: 0 0 5px #fff; z-index: -1; 
+}
+
 /* REALISTIC SHOOTING STARS */
 .shooting-star { 
     position: absolute; 
-    height: 2px; /* Thinner for realism */
+    height: 2px;
     background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%); 
     z-index: 50; 
     pointer-events: none; 
@@ -41,17 +51,13 @@ body, html {
     border-radius: 2px;
 }
 
-/* Add a glowing head to the meteor */
 .shooting-star::before {
     content: '';
     position: absolute;
-    left: 0;
-    top: 50%;
+    left: 0; top: 50%;
     transform: translateY(-50%);
-    width: 4px;
-    height: 4px;
-    background: #fff;
-    border-radius: 50%;
+    width: 4px; height: 4px;
+    background: #fff; border-radius: 50%;
     box-shadow: 0 0 10px 2px #fff;
 }
 
@@ -63,11 +69,4 @@ body, html {
 @keyframes sparkle { 100% { transform: scale(0); opacity: 0; } }
 
 /* TRANSITIONS */
-.paper-half { position: fixed; top: 0; width: 51%; height: 100%; background: #fff; z-index: 1001; transition: transform 1.5s cubic-bezier(0.7, 0, 0.3, 1); }
-#paper-left { left: 0; } #paper-right { right: 0; }
-.rip-left { transform: translateX(-100%); } .rip-right { transform: translateX(100%); }
-
-.white-overlay { position: fixed; inset: 0; z-index: 1005; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #333; cursor: pointer; background: #fff; }
-.btn { font-family: 'Caveat'; font-size: 1.5rem; padding: 10px 30px; border-radius: 30px; border: none; cursor: pointer; margin: 15px; }
-.yes { background: #ffb6c1; color: #fff; }
-.hidden { display: none !important; }
+.paper-half { position: fixed; top:
