@@ -69,4 +69,16 @@ body, html {
 @keyframes sparkle { 100% { transform: scale(0); opacity: 0; } }
 
 /* TRANSITIONS */
-.paper-half { position: fixed; top:
+.paper-half { position: fixed; top: 0; width: 51%; height: 100%; background: #fff; z-index: 1001; transition: transform 1.5s cubic-bezier(0.7, 0, 0.3, 1); }
+#paper-left { left: 0; border-right: 1px solid #ddd;} #paper-right { right: 0; }
+.rip-left { transform: translateX(-100%); } .rip-right { transform: translateX(100%); }
+
+.white-overlay { position: fixed; inset: 0; z-index: 1005; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #333; cursor: pointer; background: #fff; }
+.btn { font-family: 'Caveat'; font-size: 1.5rem; padding: 10px 30px; border-radius: 30px; border: none; cursor: pointer; margin: 15px; }
+.yes { background: #ffb6c1; color: #fff; }
+.hidden { display: none !important; }
+
+.content-box {
+    position: fixed; inset: 0; display: flex; align-items: center;
+    justify-content: center; text-align: center; background: #000; z-index: 2000;
+}
