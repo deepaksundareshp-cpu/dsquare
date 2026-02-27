@@ -76,3 +76,17 @@ body, html {
 
 .shooting-star { position: fixed; z-index: 100; pointer-events: none; }
 .hidden { display: none !important; }
+
+.static-star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.5;
+    animation: twinkle var(--twinkle-duration) infinite ease-in-out;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
