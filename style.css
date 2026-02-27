@@ -1,119 +1,88 @@
-body, html {
-    background-color: #000;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    font-family: 'Caveat', cursive;
-    color: #fff;
+body, html { 
+    background-color: #000; margin: 0; padding: 0; 
+    height: 100vh; width: 100vw; overflow: hidden; 
+    font-family: 'Caveat', cursive; color: #fff;
 }
 
-/* Deep nebula background */
-#nebula {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background:
-        radial-gradient(circle at 30% 40%, rgba(75,0,130,0.6), transparent 40%),
-        radial-gradient(circle at 70% 60%, rgba(138,43,226,0.4), transparent 40%),
-        radial-gradient(circle at center, #0a001a, #000 80%);
-    z-index: -2;
+#nebula { 
+    position: fixed; width: 100%; height: 100%; 
+    background: radial-gradient(circle at 50% 50%, #0d001a, #000); 
+    background: radial-gradient(circle at 50% 50%, #1a0033, #000); 
+    z-index: -2; 
 }
 
-#starCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
+#starCanvas { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
 }
+#starCanvas { position: fixed; top: 0; left: 0; z-index: -1; }
 
-/* Note text smaller */
+/* THE ECHO REVEAL TEXT */
 #reveal-area {
-    width: 80%;
-    max-width: 800px;
-    margin: 50px auto;
-    font-size: 1.7rem;
-    line-height: 1.6;
-    text-align: center;
+    width: 85%; max-width: 650px; margin: 50px auto;
+    font-size: 1.4rem; /* Even smaller, more elegant font size */
+    line-height: 1.5; text-align: center;
+    width: 80%; max-width: 800px; margin: 50px auto;
+    font-size: 1.85rem; line-height: 1.6; text-align: center;
     pointer-events: none;
+    z-index: 10;
 }
 
 .word {
-    display: inline-block;
-    margin-right: 8px;
-    opacity: 0.05;
+    display: inline-block; margin-right: 6px;
+    opacity: 0.03; /* Lower base opacity for better reveal contrast */
+    transition: opacity 1s ease, transform 0.8s ease, filter 1s ease;
+    filter: blur(5px);
+    display: inline-block; margin-right: 8px;
+    opacity: 0.05; /* Barely visible */
     transition: opacity 1.5s ease, transform 1s ease;
     filter: blur(4px);
 }
 
 .word.lit {
-    opacity: 1;
-    filter: blur(0px);
+    opacity: 1; filter: blur(0px);
+    transform: scale(1.05);
+    color: #fff;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
     transform: scale(1.1);
-    color: #e0b0ff;
+    color: #e0b0ff; /* Soft lavender glow */
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
 }
 
-/* Paper rip */
-.paper-half {
-    position: fixed;
-    top: 0;
-    width: 51%;
-    height: 100%;
-    background: #fff;
-    z-index: 1001;
-    transition: transform 1.5s cubic-bezier(0.7, 0, 0.3, 1);
+/* PAPER RIP */
+.paper-half { 
+    position: fixed; top: 0; width: 51%; height: 100%; background: #fff; 
+    z-index: 1001; transition: transform 1.5s cubic-bezier(0.7, 0, 0.3, 1); 
 }
-
+#paper-left { left: 0; border-right: 1px solid #ddd; }
+#paper-right { right: 0; border-left: 1px solid #ddd; }
 #paper-left { left: 0; }
 #paper-right { right: 0; }
-
 .rip-left { transform: translateX(-100%); }
 .rip-right { transform: translateX(100%); }
 
-.white-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1005;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #333;
-    cursor: pointer;
+.white-overlay { 
+    position: fixed; inset: 0; z-index: 1005; 
+    display: flex; flex-direction: column; justify-content: center; align-items: center; 
+    color: #333; cursor: pointer; background: #fff;
+    color: #333; cursor: pointer;
 }
+#envelope-icon { font-size: 5rem; margin-bottom: 20px; }
 
-#envelope-icon {
-    font-size: 5rem;
-    margin-bottom: 20px;
-}
-
-.btn {
-    font-family: 'Caveat';
-    font-size: 1.8rem;
-    padding: 12px 40px;
-    border-radius: 40px;
-    border: none;
-    cursor: pointer;
-    margin: 20px;
+.btn { 
+    font-family: 'Caveat'; font-size: 1.5rem; padding: 10px 30px; 
+    border-radius: 40px; border: none; cursor: pointer; margin: 15px; 
+    font-family: 'Caveat'; font-size: 1.8rem; padding: 12px 40px; 
+    border-radius: 40px; border: none; cursor: pointer; margin: 20px; 
     transition: opacity 2s;
 }
+.yes { background: #ffb6c1; color: #fff; box-shadow: 0 0 15px rgba(255,182,193,0.4); }
+.no { background: #333; color: #fff; }
 
-.yes {
-    background: #ffb6c1;
-    color: #fff;
-    box-shadow: 0 0 20px rgba(255,182,193,0.5);
-}
-
+.yes { background: #ffb6c1; color: #fff; box-shadow: 0 0 20px rgba(255,182,193,0.5); }
 .hidden { display: none !important; }
+.fade-in-delayed { opacity: 0; animation: fadeIn 3s forwards; animation-delay: 5s; text-align: center; }
+.fade-in-delayed { opacity: 0; animation: fadeIn 5s forwards; animation-delay: 10s; }
+@keyframes fadeIn { to { opacity: 1; } }
 
-.fade-in-delayed {
-    opacity: 0;
-    animation: fadeIn 5s forwards;
-    animation-delay: 10s;
-}
-
-@keyframes fadeIn {
-    to { opacity: 1; }
-}
+.content-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%; }
+.message { font-size: 3rem; text-shadow: 0 0 20px #fff; }
