@@ -1,72 +1,57 @@
 body, html { 
     background-color: #000; margin: 0; padding: 0; 
-    height: 100vh; width: 100vw; overflow: hidden; 
+    height: 100vh; width: 100vw; overflow-x: hidden; 
     font-family: 'Caveat', cursive; color: #fff;
 }
 
 #nebula { 
     position: fixed; inset: 0; 
-    background: radial-gradient(circle at 50% 50%, #110022, #000); 
-    z-index: -3; 
+    background: radial-gradient(circle at 50% 50%, #1a0033, #000); 
+    z-index: -10; 
 }
 
-#star-field { position: fixed; inset: 0; z-index: -2; pointer-events: none; }
-
-/* REVEAL AREA */
-#reveal-area {
-    width: 85%; max-width: 750px; margin: 100px auto;
-    font-size: 1.65rem; line-height: 1.8; text-align: center;
+#star-container { 
+    position: fixed; inset: 0; z-index: -5; 
     pointer-events: none;
-    z-index: 10;
+}
+
+#echo-container {
+    position: relative; z-index: 5;
+    padding: 100px 0; min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center;
+}
+
+#reveal-area {
+    width: 85%; max-width: 650px; margin: 0 auto;
+    font-size: 1.6rem; line-height: 1.8; text-align: center;
 }
 
 .word {
     display: inline-block; margin-right: 7px;
-    opacity: 0; filter: blur(12px);
-    transition: opacity 1.5s ease, filter 1.5s ease, transform 1s ease;
+    opacity: 0; filter: blur(10px);
+    transition: opacity 1.2s ease, filter 1.2s ease;
 }
 
 .word.lit {
     opacity: 1; filter: blur(0px);
-    transform: scale(1.08);
-    color: #fff;
-    text-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
+    color: #fff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
 }
 
-/* STAR STYLES */
-.star { 
-    position: absolute; background: #fff; border-radius: 50%; 
-    box-shadow: 0 0 6px #fff; opacity: 0.8;
-}
+.star { position: absolute; background: #fff; border-radius: 50%; box-shadow: 0 0 5px #fff; }
+.shooting-star { position: absolute; background: linear-gradient(90deg, #fff, transparent); z-index: -4; }
 
-.shooting-star { 
-    position: absolute; background: linear-gradient(90deg, #fff, transparent); 
-    z-index: -1; pointer-events: none; opacity: 0;
-}
+#button-group { margin-top: 50px; padding-bottom: 100px; transition: opacity 1s; }
+.hidden-btn { opacity: 0; pointer-events: none; }
+.show-btn { opacity: 1 !important; pointer-events: all !important; }
 
-.star-lg { height: 3px; box-shadow: 0 0 15px #fff; }
-.star-md { height: 2px; box-shadow: 0 0 8px #fff; }
-.star-sm { height: 1px; box-shadow: 0 0 4px #fff; }
+.btn { font-family: 'Caveat'; font-size: 1.8rem; padding: 12px 40px; border-radius: 40px; border: none; cursor: pointer; margin: 10px; }
+.yes { background: #ffb6c1; color: #fff; box-shadow: 0 0 15px rgba(255,182,193,0.5); }
 
-/* CURSOR PARTICLES */
-.particle { 
-    position: fixed; background: #fff; border-radius: 50%; z-index: 1000; 
-    pointer-events: none; animation: sparkle 0.7s linear forwards; 
-}
-@keyframes sparkle { 100% { transform: scale(0); opacity: 0; } }
-
-/* OVERLAYS & UI */
-.paper-half { position: fixed; top: 0; width: 51%; height: 100%; background: #fff; z-index: 1001; transition: transform 1.8s cubic-bezier(0.7, 0, 0.3, 1); }
-#paper-left { left: 0; } #paper-right { right: 0; }
+.paper-half { position: fixed; top: 0; width: 51%; height: 100%; background: #fff; z-index: 100; transition: transform 1.5s ease-in-out; }
+#paper-left { left: 0; border-right: 1px solid #ddd; } #paper-right { right: 0; }
 .rip-left { transform: translateX(-100%); } .rip-right { transform: translateX(100%); }
 
-.white-overlay { position: fixed; inset: 0; z-index: 1005; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #333; cursor: pointer; background: #fff; }
-#envelope-icon { font-size: 5rem; margin-bottom: 10px; }
-.instruction { font-size: 1.5rem; letter-spacing: 1px; }
-
-.btn { font-family: 'Caveat'; font-size: 1.8rem; padding: 12px 40px; border-radius: 40px; border: none; cursor: pointer; margin: 20px; transition: transform 0.3s; }
-.yes { background: #ffb6c1; color: #fff; }
-.no { background: #fff; color: #333; }
+.white-overlay { position: fixed; inset: 0; z-index: 110; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #333; cursor: pointer; background: #fff; }
+#envelope-icon { font-size: 5rem; }
 .hidden { display: none !important; }
-
-.content-box { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; }
+.content-box { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0,0,0,0.8); z-index: 200; }
