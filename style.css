@@ -6,48 +6,67 @@ body, html {
 
 #nebula { 
     position: fixed; inset: 0; 
-    background: radial-gradient(circle at 50% 50%, #0d001a, #000); 
-    z-index: -2; 
+    background: radial-gradient(circle at 50% 50%, #110022, #000); 
+    z-index: -3; 
 }
 
-/* ECHO TEXT STYLES */
+#star-field { position: fixed; inset: 0; z-index: -2; pointer-events: none; }
+
+/* REVEAL AREA */
 #reveal-area {
-    width: 85%; max-width: 700px; margin: 80px auto;
-    font-size: 1.6rem; line-height: 1.8; text-align: center;
+    width: 85%; max-width: 750px; margin: 100px auto;
+    font-size: 1.65rem; line-height: 1.8; text-align: center;
     pointer-events: none;
+    z-index: 10;
 }
 
 .word {
-    display: inline-block; margin-right: 6px;
-    opacity: 0; filter: blur(10px);
-    transition: opacity 1.2s ease, filter 1.2s ease, transform 0.8s ease;
+    display: inline-block; margin-right: 7px;
+    opacity: 0; filter: blur(12px);
+    transition: opacity 1.5s ease, filter 1.5s ease, transform 1s ease;
 }
 
 .word.lit {
     opacity: 1; filter: blur(0px);
-    transform: scale(1.05);
+    transform: scale(1.08);
     color: #fff;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
 }
 
-/* STARS & SHOOTING STARS */
-.star { position: absolute; background: #fff; border-radius: 50%; box-shadow: 0 0 5px #fff; z-index: -1; }
-.shooting-star { position: absolute; background: linear-gradient(90deg, #fff, transparent); z-index: 50; pointer-events: none; opacity: 0; }
-.star-large { height: 3px; box-shadow: 0 0 15px #fff; }
+/* STAR STYLES */
+.star { 
+    position: absolute; background: #fff; border-radius: 50%; 
+    box-shadow: 0 0 6px #fff; opacity: 0.8;
+}
 
-/* PARTICLES */
+.shooting-star { 
+    position: absolute; background: linear-gradient(90deg, #fff, transparent); 
+    z-index: -1; pointer-events: none; opacity: 0;
+}
+
+.star-lg { height: 3px; box-shadow: 0 0 15px #fff; }
+.star-md { height: 2px; box-shadow: 0 0 8px #fff; }
+.star-sm { height: 1px; box-shadow: 0 0 4px #fff; }
+
+/* CURSOR PARTICLES */
 .particle { 
     position: fixed; background: #fff; border-radius: 50%; z-index: 1000; 
-    pointer-events: none; animation: sparkle 0.8s linear forwards; 
+    pointer-events: none; animation: sparkle 0.7s linear forwards; 
 }
 @keyframes sparkle { 100% { transform: scale(0); opacity: 0; } }
 
-/* TRANSITIONS */
-.paper-half { position: fixed; top: 0; width: 51%; height: 100%; background: #fff; z-index: 1001; transition: transform 1.5s cubic-bezier(0.7, 0, 0.3, 1); }
+/* OVERLAYS & UI */
+.paper-half { position: fixed; top: 0; width: 51%; height: 100%; background: #fff; z-index: 1001; transition: transform 1.8s cubic-bezier(0.7, 0, 0.3, 1); }
 #paper-left { left: 0; } #paper-right { right: 0; }
 .rip-left { transform: translateX(-100%); } .rip-right { transform: translateX(100%); }
 
 .white-overlay { position: fixed; inset: 0; z-index: 1005; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #333; cursor: pointer; background: #fff; }
-.btn { font-family: 'Caveat'; font-size: 1.5rem; padding: 10px 30px; border-radius: 30px; border: none; cursor: pointer; margin: 15px; }
+#envelope-icon { font-size: 5rem; margin-bottom: 10px; }
+.instruction { font-size: 1.5rem; letter-spacing: 1px; }
+
+.btn { font-family: 'Caveat'; font-size: 1.8rem; padding: 12px 40px; border-radius: 40px; border: none; cursor: pointer; margin: 20px; transition: transform 0.3s; }
 .yes { background: #ffb6c1; color: #fff; }
+.no { background: #fff; color: #333; }
 .hidden { display: none !important; }
+
+.content-box { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; }
