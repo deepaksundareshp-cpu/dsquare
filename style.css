@@ -5,85 +5,57 @@ body, html {
 }
 
 #nebula { 
-    position: fixed; inset: 0; 
-    background: radial-gradient(circle at 50% 50%, #0d001a, #000); 
+    position: fixed; width: 100%; height: 100%; 
+    background: radial-gradient(circle at 50% 50%, #1a0033, #000); 
     z-index: -2; 
 }
 
-/* ECHO TEXT STYLES */
+#starCanvas { position: fixed; top: 0; left: 0; z-index: -1; }
+
+/* THE ECHO REVEAL TEXT */
 #reveal-area {
-    width: 85%; max-width: 700px; margin: 80px auto;
-    font-size: 1.6rem; line-height: 1.8; text-align: center;
+    width: 80%; max-width: 800px; margin: 50px auto;
+    font-size: 2.2rem; line-height: 1.6; text-align: center;
     pointer-events: none;
-    position: relative;
-    z-index: 10;
 }
 
 .word {
-    display: inline-block; margin-right: 6px;
-    opacity: 0; filter: blur(10px);
-    transition: opacity 1.2s ease, filter 1.2s ease, transform 0.8s ease;
+    display: inline-block; margin-right: 8px;
+    opacity: 0.05; /* Barely visible */
+    transition: opacity 1.5s ease, transform 1s ease;
+    filter: blur(4px);
 }
 
 .word.lit {
     opacity: 1; filter: blur(0px);
-    transform: scale(1.05);
-    color: #fff;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    transform: scale(1.1);
+    color: #e0b0ff; /* Soft lavender glow */
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
 }
 
-/* BACKGROUND STARS */
-#star-field {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
+/* PAPER RIP */
+.paper-half { 
+    position: fixed; top: 0; width: 51%; height: 100%; background: #fff; 
+    z-index: 1001; transition: transform 1.5s cubic-bezier(0.7, 0, 0.3, 1); 
 }
+#paper-left { left: 0; }
+#paper-right { right: 0; }
+.rip-left { transform: translateX(-100%); }
+.rip-right { transform: translateX(100%); }
 
-.star { 
-    position: absolute; 
-    background: #fff; 
-    border-radius: 50%; 
-    opacity: 0.5;
-    animation: twinkle var(--duration) infinite ease-in-out;
+.white-overlay { 
+    position: fixed; inset: 0; z-index: 1005; 
+    display: flex; flex-direction: column; justify-content: center; align-items: center; 
+    color: #333; cursor: pointer;
 }
-
-@keyframes twinkle {
-    0%, 100% { opacity: 0.3; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 8px #fff; }
-}
-
-/* REALISTIC SHOOTING STARS */
-.shooting-star {
-    position: absolute;
-    height: 2px;
-    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
-    filter: drop-shadow(0 0 6px #fff);
-    border-radius: 999px;
-    z-index: 50;
-    pointer-events: none;
-}
-
-/* PARTICLES */
-.particle { 
-    position: fixed; background: #fff; border-radius: 50%; z-index: 1000; 
-    pointer-events: none; animation: sparkle 0.8s linear forwards; 
-}
-@keyframes sparkle { 100% { transform: scale(0); opacity: 0; } }
-
-/* TRANSITIONS */
-.paper-half { position: fixed; top: 0; width: 51%; height: 100%; background: #fff; z-index: 1001; transition: transform 1.5s cubic-bezier(0.7, 0, 0.3, 1); }
-#paper-left { left: 0; border-right: 1px solid #ddd; } 
-#paper-right { right: 0; border-left: 1px solid #ddd; }
-.rip-left { transform: translateX(-100%); } .rip-right { transform: translateX(100%); }
-
-.white-overlay { position: fixed; inset: 0; z-index: 1005; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #333; cursor: pointer; background: #fff; }
 #envelope-icon { font-size: 5rem; margin-bottom: 20px; }
 
-.btn { font-family: 'Caveat'; font-size: 1.5rem; padding: 10px 30px; border-radius: 30px; border: none; cursor: pointer; margin: 15px; transition: 0.3s; }
-.yes { background: #ffb6c1; color: #fff; }
-.yes:hover { transform: scale(1.1); background: #ff99aa; }
-.no { background: #444; color: #fff; }
-
-.content-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%; }
-.message { font-size: 3rem; text-shadow: 0 0 20px #fff; }
+.btn { 
+    font-family: 'Caveat'; font-size: 1.8rem; padding: 12px 40px; 
+    border-radius: 40px; border: none; cursor: pointer; margin: 20px; 
+    transition: opacity 2s;
+}
+.yes { background: #ffb6c1; color: #fff; box-shadow: 0 0 20px rgba(255,182,193,0.5); }
 .hidden { display: none !important; }
+.fade-in-delayed { opacity: 0; animation: fadeIn 5s forwards; animation-delay: 10s; }
+@keyframes fadeIn { to { opacity: 1; } }
