@@ -30,10 +30,30 @@ body, html {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
 }
 
-/* STARS & SHOOTING STARS */
-.star { position: absolute; background: #fff; border-radius: 50%; box-shadow: 0 0 5px #fff; z-index: -1; }
-.shooting-star { position: absolute; background: linear-gradient(90deg, #fff, transparent); z-index: 50; pointer-events: none; opacity: 0; }
-.star-large { height: 3px; box-shadow: 0 0 15px #fff; }
+/* REALISTIC SHOOTING STARS */
+.shooting-star { 
+    position: absolute; 
+    height: 2px; /* Thinner for realism */
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%); 
+    z-index: 50; 
+    pointer-events: none; 
+    opacity: 0;
+    border-radius: 2px;
+}
+
+/* Add a glowing head to the meteor */
+.shooting-star::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 2px #fff;
+}
 
 /* PARTICLES */
 .particle { 
