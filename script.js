@@ -8,50 +8,48 @@ document.addEventListener("DOMContentLoaded", function () {
     const starField = document.getElementById('star-field');
     const particleContainer = document.getElementById('cursor-particle-container');
     const typedText = document.getElementById('typed-text');
+    const mainCard = document.getElementById('main-card');
 
-    // 1. Generate Stars
+    // 1. Generate Static Stars
     for (let i = 0; i < 150; i++) {
         let star = document.createElement('div');
         star.className = 'star';
-        const size = Math.random() * 2 + 1;
-        star.style.width = size + 'px';
-        star.style.height = size + 'px';
-        star.style.top = Math.random() * 100 + 'vh';
-        star.style.left = Math.random() * 100 + 'vw';
-        star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+        star.style.cssText = `width:2px; height:2px; top:${Math.random()*100}vh; left:${Math.random()*100}vw; --duration:${Math.random()*3+2}s;`;
         starField.appendChild(star);
     }
 
-    // 2. Shooting Star Engine
-    function launchStar() {
+    // 2. Multi-Color Star Engine
+    function launchStar(isShower = false) {
         const sStar = document.createElement('div');
-        const rand = Math.random();
-        let sClass = 'star-small', w = Math.random()*80+50, d = 1200;
-        if (rand > 0.9) { sClass = 'star-large'; w = 350; d = 2500; }
-        else if (rand > 0.7) { sClass = 'star-medium'; w = 180; d = 1800; }
+        const colors = ['#fff', '#00fbff', '#ffae00', '#ff00ff', '#ffd700'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
         
-        sStar.className = `shooting-star ${sClass}`;
+        sStar.className = 'shooting-star';
         sStar.style.left = Math.random() * window.innerWidth + 'px';
-        sStar.style.top = Math.random() * window.innerHeight * 0.5 + 'px';
-        sStar.style.width = w + 'px';
+        sStar.style.top = Math.random() * window.innerHeight * 0.6 + 'px';
+        sStar.style.width = (Math.random() * 150 + 100) + 'px';
+        sStar.style.height = isShower ? '3px' : '2px';
+        sStar.style.background = `linear-gradient(90deg, ${color}, transparent)`;
+        sStar.style.boxShadow = `0 0 15px ${color}`;
+        
         starField.appendChild(sStar);
 
+        const duration = isShower ? 3000 : 1800; // Shower stars go slow (3s)
         const anim = sStar.animate([
             {transform:'translate(0,0) rotate(-45deg)', opacity:0},
             {transform:'translate(-100px,100px) rotate(-45deg)', opacity:1, offset:0.1},
-            {transform:'translate(-1400px,1400px) rotate(-45deg)', opacity:0}
-        ], {duration: d, easing: 'linear'});
+            {transform:'translate(-1200px,1200px) rotate(-45deg)', opacity:0}
+        ], {duration: duration, easing: 'linear'});
         anim.onfinish = () => sStar.remove();
     }
-    setInterval(launchStar, 1800); 
+    setInterval(() => launchStar(false), 2000); 
 
-    // 3. Mouse Physics
+    // 3. Mouse Interaction
     window.addEventListener('mousemove', (e) => {
-        const moveX = (e.clientX / window.innerWidth - 0.5) * 25;
-        const moveY = (e.clientY / window.innerHeight - 0.5) * 25;
+        const moveX = (e.clientX / window.innerWidth - 0.5) * 20;
+        const moveY = (e.clientY / window.innerHeight - 0.5) * 20;
         nebula.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
-
-        if (Math.random() > 0.4) {
+        if (Math.random() > 0.5) {
             const p = document.createElement('div');
             p.className = 'particle';
             p.style.cssText = `left:${e.clientX}px; top:${e.clientY}px; width:4px; height:4px; --mx:${Math.random()*80-40}px; --my:${Math.random()*80-40}px;`;
@@ -67,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('paper-right').classList.add('rip-right');
         document.getElementById('envelope-overlay').style.display = 'none';
         setTimeout(() => { 
-            document.getElementById('main-card').classList.remove('hidden'); 
+            mainCard.classList.remove('hidden'); 
             startTyping(); 
         }, 1200);
     });
@@ -84,12 +82,16 @@ document.addEventListener("DOMContentLoaded", function () {
             if (char === '\n') typedText.appendChild(document.createElement('br'));
             else typedText.appendChild(span);
             
-            setTimeout(() => span.classList.add('fade-old'), 8000);
+            // Fades to completely invisible
+            setTimeout(() => span.classList.add('fade-old'), 7000);
+            
             charIndex++;
+            // Auto-scroll logic
+            mainCard.scrollTop = mainCard.scrollHeight;
             setTimeout(startTyping, char === '.' ? 600 : 45);
         } else {
-            // Sequence triggered 10s after typing finishes (when coffee fades)
-            setTimeout(triggerBigBangSequence, 10000);
+            // Wait for coffee to disappear then explode
+            setTimeout(triggerBigBangSequence, 9000);
         }
     }
 
@@ -99,30 +101,31 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.appendChild(bang);
 
         const m1 = document.createElement('div'); m1.className = 'heavy-meteor';
-        m1.style.left = '-100px'; m1.style.top = '-100px';
+        m1.style.left = '-150px'; m1.style.top = '-150px';
         const m2 = document.createElement('div'); m2.className = 'heavy-meteor';
-        m2.style.right = '-100px'; m2.style.bottom = '-100px';
+        m2.style.right = '-150px'; m2.style.bottom = '-150px';
         
         document.body.appendChild(m1); document.body.appendChild(m2);
 
-        const collTime = 2000;
-        m1.animate([{left:'-100px', top:'-100px'}, {left:'50%', top:'50%', transform:'translate(-50%,-50%)'}], {duration: collTime, easing:'ease-in'});
-        m2.animate([{right:'-100px', bottom:'-100px'}, {right:'50%', bottom:'50%', transform:'translate(50%,50%)'}], {duration: collTime, easing:'ease-in'});
+        // Meteor collision speed (3s)
+        const collTime = 3000;
+        m1.animate([{left:'-150px', top:'-150px'}, {left:'50%', top:'50%', transform:'translate(-50%,-50%)'}], {duration: collTime, easing:'ease-out'});
+        m2.animate([{right:'-150px', bottom:'-150px'}, {right:'50%', bottom:'50%', transform:'translate(50%,50%)'}], {duration: collTime, easing:'ease-out'});
 
         setTimeout(() => {
             m1.remove(); m2.remove();
-            bang.classList.add('bang-active');
-            nebula.classList.add('intense'); // Change background color
+            bang.classList.add('bang-active'); // Expansion lasts 3s
+            nebula.classList.add('intense');
 
-            // MASSIVE METEOR SHOWER
-            let showerInterval = setInterval(launchStar, 30); 
+            // Slow, multi-colored shower starts immediately upon impact
+            let showerInterval = setInterval(() => launchStar(true), 60); 
             
             setTimeout(() => {
                 clearInterval(showerInterval);
-                document.getElementById('main-card').classList.add('hidden');
-                document.getElementById('final-yes').classList.remove('hidden');
-                emailjs.send(SERVICE_ID, TEMPLATE_ID, { response: "Coffee Sequence Complete ☕✨" });
-            , 2500); // Wait for bang animation to finish
+                mainCard.classList.add('hidden');
+                emailjs.send(SERVICE_ID, TEMPLATE_ID, { response: "Cinematic End Reached" });
+            }, 4000); // Shower lasts 4 seconds total
+
         }, collTime);
     }
 });
