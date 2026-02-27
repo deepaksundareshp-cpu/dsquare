@@ -2,75 +2,72 @@ body, html {
     background-color: #000; margin: 0; padding: 0;
     height: 100vh; width: 100vw; overflow: hidden;
     font-family: 'Caveat', cursive;
-    display: flex; justify-content: center; align-items: center;
 }
 
-/* --- THE BACKGROUND GALAXY --- */
+/* OPTIMIZED NEBULA */
 #nebula {
-    position: fixed; 
-    width: 250vw; height: 250vh; top: -75vh; left: -75vw;
-    background: 
-        radial-gradient(circle at 30% 30%, rgba(138, 43, 226, 0.45), transparent 50%),
-        radial-gradient(circle at 70% 70%, rgba(0, 191, 255, 0.4), transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(255, 20, 147, 0.2), transparent 50%);
-    filter: blur(100px); z-index: -2;
-    transition: transform 0.3s ease-out; /* Smooths mouse interaction */
+    position: fixed; width: 130vw; height: 130vh; top: -15vh; left: -15vw;
+    background: radial-gradient(circle at 30% 30%, rgba(138,43,226,0.3), transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(0,191,255,0.3), transparent 50%);
+    filter: blur(50px); z-index: -2;
+    will-change: transform;
 }
 
-/* --- GLOWING STARDUST --- */
+/* PERFORMANCE-FIRST STARDUST */
 .particle {
     position: fixed; background: #fff; border-radius: 50%;
     pointer-events: none; z-index: 999;
-    box-shadow: 0 0 12px #fff, 0 0 25px #ff00ff;
-    animation: sparkleEffect 1.8s ease-out forwards;
+    will-change: transform, opacity;
+    animation: sparkle 1.2s ease-out forwards;
 }
 
-@keyframes sparkleEffect {
-    0% { opacity: 0; transform: translate(0,0) scale(0); }
-    20% { opacity: 1; transform: translate(0,0) scale(1.3); }
-    100% { opacity: 0; transform: translate(var(--mx), var(--my)) scale(0); }
+@keyframes sparkle {
+    0% { transform: translate(0,0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--mx), var(--my)) scale(0); opacity: 0; }
 }
 
-/* --- SHOOTING STARS --- */
-.shooting-star {
-    position: absolute; height: 3px; background: linear-gradient(90deg, #fff, transparent);
-    z-index: 50; pointer-events: none; box-shadow: 0 0 15px #fff; opacity: 0;
+/* SMOOTH PAPER RIP */
+.paper-half {
+    position: fixed; top: 0; width: 51%; height: 100%;
+    background: #fff; z-index: 1001; 
+    transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
+#paper-left { left: 0; border-right: 1px solid #eee; }
+#paper-right { right: 0; border-left: 1px solid #eee; }
 
-/* --- TEXT LAYOUT --- */
+.rip-left { transform: translateX(-100%); }
+.rip-right { transform: translateX(100%); }
+
+/* TYPING TEXT BOX */
 .content-box {
     position: relative; z-index: 10; text-align: center;
-    max-width: 900px; width: 90%; height: 85vh;
-    display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 80px;
+    max-width: 800px; margin: 0 auto; height: 80vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding-bottom: 80px;
 }
 
-.message { font-size: 2.5rem; line-height: 1.4; color: #fff; text-shadow: 0 0 15px rgba(0,0,0,0.8); }
-.letter { transition: opacity 6s, color 6s; }
-.fade-old { opacity: 0.08 !important; color: #1a1a1a !important; }
+.message { font-size: 2.2rem; line-height: 1.4; color: #fff; }
+.letter { transition: opacity 5s, color 5s; }
+.fade-old { opacity: 0.1 !important; }
 
-/* --- OVERLAYS & BUTTONS --- */
+/* UI ELEMENTS */
 .white-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: #fff; z-index: 1000;
+    position: fixed; width: 100%; height: 100%; z-index: 1005;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
-    cursor: pointer; transition: opacity 2s ease-in-out;
+    cursor: pointer; background: transparent;
 }
-.envelope-icon { font-size: 6rem; transition: 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-.btn { font-family: 'Caveat'; font-size: 1.8rem; padding: 12px 40px; border-radius: 40px; border: none; cursor: pointer; margin: 10px; transition: 0.3s; }
-.yes { background: #ffb6c1; color: #fff; box-shadow: 0 0 20px rgba(255,182,193,0.5); }
+
+.envelope-icon { font-size: 6rem; transition: 0.5s; }
+.btn { font-family: 'Caveat'; font-size: 1.8rem; padding: 12px 40px; border-radius: 40px; border: none; cursor: pointer; margin: 10px; }
+.yes { background: #ffb6c1; color: #fff; }
 .no { background: #fff; color: #333; }
 .hidden { display: none !important; }
-.fade-out { opacity: 0 !important; pointer-events: none; }
 
-/* --- STEAM --- */
+/* COFFEE STEAM */
 .steam-container { position: relative; display: inline-block; }
 .steam {
-    position: absolute; top: -10px; left: 50%; width: 15px; height: 30px;
-    background: rgba(255, 255, 255, 0.4); filter: blur(5px);
-    border-radius: 50%; animation: riseSteam 3s infinite;
+    position: absolute; top: -10px; left: 50%; width: 10px; height: 20px;
+    background: rgba(255, 255, 255, 0.4); filter: blur(3px);
+    border-radius: 50%; animation: rise 2s infinite;
 }
-@keyframes riseSteam {
-    0% { transform: translateX(-50%) translateY(0) scale(1); opacity: 0; }
-    50% { opacity: 0.6; }
-    100% { transform: translateX(-50%) translateY(-60px) scale(2.5); opacity: 0; }
-}
+@keyframes rise { 100% { transform: translate(-50%, -40px) scale(2); opacity: 0; } }
