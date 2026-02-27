@@ -4,6 +4,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const typedText = document.getElementById('typed-text');
     const mainCard = document.getElementById('main-card');
 
+    // 1. Mouse Effect: Stardust Trail
+    window.addEventListener('mousemove', (e) => {
+        if (Math.random() > 0.3) {
+            const p = document.createElement('div');
+            p.className = 'cursor-particle';
+            p.style.left = e.clientX + 'px';
+            p.style.top = e.clientY + 'px';
+            
+            const driftX = (Math.random() - 0.5) * 100 + 'px';
+            const driftY = (Math.random() - 0.5) * 100 + 'px';
+            p.style.setProperty('--dx', driftX);
+            p.style.setProperty('--dy', driftY);
+            
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 1200);
+        }
+    });
+
+    // 2. Star Engine
     function launchStar(isShower = false) {
         const sStar = document.createElement('div');
         const colors = ['#fff', '#00fbff', '#ffae00', '#ff00ff', '#ffd700'];
@@ -26,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     setInterval(() => launchStar(false), 2000);
 
+    // 3. Opening Sequence
     document.getElementById('envelope-overlay').addEventListener('click', function() {
         document.getElementById('bg-music').play().catch(() => {});
         document.getElementById('paper-left').classList.add('rip-left');
@@ -37,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 1500);
     });
 
-    // Spacing fixed in fullText
+    // 4. Content Logic
     const fullText = `There’s something called journaling… it’s about preserving something personal. And I genuinely want to thank you for teaching me that.\n\nI never used to write things down, especially not my dreams. I realized that the first few minutes after waking up are important. If I let other thoughts enter my mind, the dream slowly fades away.\n\nSo I started writing immediately after waking up, just whatever I could remember.\n\nAfter seeing your work, something clicked for me. I understood that writing isn’t just about preserving something personal.\n\nIn a world where so much of our lives feels visible and public, journaling feels different. It feels private. It feels intentional. It feels like something that is ONLY I KNOW.\n\nAnd I genuinely want to thank you for that.\n\nI’m someone who wants to learn and keep learning. Sometimes we don’t even realize who teaches us something valuable in life — but in this case, you did.\n\nSo... coffee? ☕`;
 
     let charIndex = 0;
@@ -52,23 +72,24 @@ document.addEventListener("DOMContentLoaded", () => {
             
             if (char === '\n') {
                 typedText.appendChild(document.createElement('br'));
-                currentYOffset -= 35; // Adjusted for smaller font
+                currentYOffset -= 35;
                 typedText.style.transform = `translateY(${currentYOffset}px)`;
             } else {
                 typedText.appendChild(span);
             }
 
-            // FAST FADE: Words start disappearing after 5 seconds
+            // Fades out after 5 seconds
             setTimeout(() => span.classList.add('fade-out'), 5000);
 
             charIndex++;
-            // SLOWER TYPING SPEED (65ms instead of 45ms)
+            // Pacing: 65ms per char, 900ms for periods
             setTimeout(startTyping, char === '.' ? 900 : 65);
         } else {
             setTimeout(triggerBigBangSequence, 6000);
         }
     }
 
+    // 5. Big Bang Sequence
     function triggerBigBangSequence() {
         const bang = document.createElement('div');
         bang.id = 'big-bang-element';
