@@ -12,15 +12,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 1. Setup Ghost Text
     const wordsArray = fullNote.split(' ');
-    wordsArray.forEach((word, index) => {
+    wordsArray.forEach((word) => {
         const span = document.createElement('span');
         span.textContent = word;
         span.className = 'word';
-        if(word.includes('coffee')) span.id = 'trigger-word';
+        if(word.toLowerCase().includes('coffee')) span.id = 'trigger-word';
         revealArea.appendChild(span);
     });
 
-    // 2. Glowing Backdrop Stars
+    // 2. Static Background Stars
     for (let i = 0; i < 120; i++) {
         let star = document.createElement('div');
         star.className = 'star';
@@ -30,20 +30,41 @@ document.addEventListener("DOMContentLoaded", function () {
         starField.appendChild(star);
     }
 
-    // 3. Shooting Star Engine
+    // 3. REALISTIC SHOOTING STAR ENGINE
     function launchStar() {
         const s = document.createElement('div');
-        s.className = 'shooting-star star-large';
-        s.style.left = Math.random() * window.innerWidth + 'px';
-        s.style.top = Math.random() * window.innerHeight * 0.4 + 'px';
-        s.style.width = '200px';
+        s.className = 'shooting-star';
+        
+        const startX = Math.random() * window.innerWidth + (window.innerWidth * 0.2);
+        const startY = Math.random() * (window.innerHeight * 0.5);
+        const starLength = Math.random() * 150 + 100; 
+        const duration = Math.random() * 1000 + 800; 
+        
+        s.style.width = starLength + 'px';
+        s.style.left = startX + 'px';
+        s.style.top = startY + 'px';
         starField.appendChild(s);
-        const a = s.animate([{transform:'rotate(-45deg) translateX(0)', opacity:0}, {transform:'rotate(-45deg) translateX(-100px)', opacity:1, offset:0.1}, {transform:'rotate(-45deg) translateX(-800px)', opacity:0}], {duration: 2000});
+
+        const travelX = -(window.innerWidth * 0.6);
+        const a = s.animate([
+            { transform: 'rotate(-35deg) translateX(0)', opacity: 0 },
+            { transform: 'rotate(-35deg) translateX(' + (travelX * 0.1) + 'px)', opacity: 1, offset: 0.1 },
+            { transform: 'rotate(-35deg) translateX(' + travelX + 'px)', opacity: 0 }
+        ], { duration: duration, easing: 'ease-out' });
+
         a.onfinish = () => s.remove();
     }
-    setInterval(launchStar, 3000);
 
-    // 4. Reveal Physics & Interaction
+    function scheduleNextStar() {
+        const delay = Math.random() * 3000 + 1500;
+        setTimeout(() => {
+            launchStar();
+            scheduleNextStar();
+        }, delay);
+    }
+    scheduleNextStar();
+
+    // 4. Reveal Interaction
     window.addEventListener('mousemove', (e) => {
         // Sparkle trail
         const p = document.createElement('div');
@@ -53,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
         particleContainer.appendChild(p);
         setTimeout(() => p.remove(), 800);
 
-        // Echo Reveal (Small Radius: 70px)
+        // Echo Reveal
         const words = document.querySelectorAll('.word');
         words.forEach(word => {
             const rect = word.getBoundingClientRect();
@@ -81,10 +102,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 1500);
     });
 
-    // 6. Buttons
+    // 6. Final Buttons
     document.getElementById('yes-btn').addEventListener('click', () => {
         document.getElementById('echo-container').classList.add('hidden');
         document.getElementById('final-yes').classList.remove('hidden');
         emailjs.send(SERVICE_ID, TEMPLATE_ID, { response: "YES 💕" });
+    });
+
+    document.getElementById('no-btn').addEventListener('mouseover', function() {
+        this.style.position = 'fixed';
+        this.style.left = Math.random() * 80 + 'vw';
+        this.style.top = Math.random() * 80 + 'vh';
     });
 });
