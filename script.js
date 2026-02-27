@@ -5,116 +5,71 @@ emailjs.init(PUBLIC_KEY);
 
 document.addEventListener("DOMContentLoaded", function () {
     const revealArea = document.getElementById('reveal-area');
-    const particleContainer = document.getElementById('cursor-particle-container');
-    const starField = document.getElementById('star-field');
-    
-    const fullNote = `There’s something called journaling… it’s about preserving something personal. And I genuinely want to thank you for teaching me that. I never used to write things down, especially not my dreams. I realized that the first few minutes after waking up are important. If I let other thoughts enter my mind, the dream slowly fades away. So I started writing immediately after waking up, just whatever I could remember. After seeing your work, something clicked for me. I understood that writing isn’t just about preserving something personal. In a world where so much of our lives feels visible and public, journaling feels different. It feels private. It feels intentional. It feels like something that is ONLY I KNOW. And I genuinely want to thank you for that. I’m someone who wants to learn and keep learning. Sometimes we don’t even realize who teaches us something valuable in life — but in this case, you did. So... coffee? ☕`;
+    const fullText = `There’s something called journaling… it’s about preserving something personal. And I genuinely want to thank you for teaching me that. I never used to write things down, especially not my dreams. I realized that the first few minutes after waking up are important. If I let other thoughts enter my mind, the dream slowly fades away. After seeing your work, something clicked for me. It feels private. It feels intentional. It feels like something that is ONLY I KNOW. So... coffee? ☕`;
 
-    // 1. Setup Ghost Text
-    const wordsArray = fullNote.split(' ');
-    wordsArray.forEach((word) => {
+    // 1. Break text into words for the "Echo"
+    fullText.split(' ').forEach(word => {
         const span = document.createElement('span');
         span.textContent = word;
         span.className = 'word';
-        if(word.toLowerCase().includes('coffee')) span.id = 'trigger-word';
         revealArea.appendChild(span);
     });
 
-    // 2. Glowing Backdrop Stars (Denser field)
-    const starCount = 200;
-    for (let i = 0; i < starCount; i++) {
-        let star = document.createElement('div');
-        star.className = 'star';
-        const size = Math.random() * 2 + 1;
-        star.style.width = star.style.height = size + 'px';
-        star.style.top = Math.random() * 100 + 'vh';
-        star.style.left = Math.random() * 100 + 'vw';
-        
-        // Custom animation timing for each star
-        star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
-        star.style.animationDelay = Math.random() * 5 + 's';
-        
-        starField.appendChild(star);
-    }
+    const words = document.querySelectorAll('.word');
 
-    // 3. Realistic Shooting Star Engine
-    function launchStar() {
-        const s = document.createElement('div');
-        s.className = 'shooting-star';
-        
-        // Start from random side/top
-        const startX = Math.random() * window.innerWidth;
-        const startY = Math.random() * (window.innerHeight * 0.5);
-        
-        s.style.left = startX + 'px';
-        s.style.top = startY + 'px';
-        s.style.width = (Math.random() * 100 + 150) + 'px'; // Length of streak
-        
-        starField.appendChild(s);
-        
-        // Realistic diagonal trajectory
-        const animation = s.animate([
-            { transform: 'rotate(-35deg) translateX(0)', opacity: 0 },
-            { transform: 'rotate(-35deg) translateX(-200px)', opacity: 1, offset: 0.1 },
-            { transform: 'rotate(-35deg) translateX(-1000px)', opacity: 0 }
-        ], {
-            duration: Math.random() * 1000 + 1500,
-            easing: 'ease-in'
-        });
-
-        animation.onfinish = () => s.remove();
-    }
-    
-    // Launch stars at irregular intervals
-    setInterval(() => {
-        if(Math.random() > 0.3) launchStar();
-    }, 3000);
-
-    // 4. Interaction (Sparkles & Text Reveal)
+    // 2. The Reveal Physics
     window.addEventListener('mousemove', (e) => {
-        // Sparkle trail
-        const p = document.createElement('div');
-        p.className = 'particle';
-        p.style.left = e.clientX + 'px'; 
-        p.style.top = e.clientY + 'px';
-        const pSize = Math.random() * 4 + 2;
-        p.style.width = p.style.height = pSize + 'px';
-        particleContainer.appendChild(p);
-        setTimeout(() => p.remove(), 800);
-
-        // Word reveal physics
-        const words = document.querySelectorAll('.word');
         words.forEach(word => {
             const rect = word.getBoundingClientRect();
             const dx = e.clientX - (rect.left + rect.width / 2);
             const dy = e.clientY - (rect.top + rect.height / 2);
             const dist = Math.sqrt(dx * dx + dy * dy);
 
-            if (dist < 80) { 
+            if (dist < 100) { // If mouse is close
                 word.classList.add('lit');
-                if(word.id === 'trigger-word') {
-                    document.getElementById('button-group').classList.remove('hidden');
-                }
+                // Auto-fade out after 2 seconds
+                setTimeout(() => word.classList.remove('lit'), 2000);
             }
         });
     });
 
-    // 5. Envelope Click
+    // 3. Envelope Reveal
     document.getElementById('envelope-overlay').addEventListener('click', () => {
-        const music = document.getElementById('bg-music');
-        music.volume = 0.4;
-        music.play().catch(()=>{});
-        
+        document.getElementById('bg-music').play().catch(()=>{});
         document.getElementById('paper-left').classList.add('rip-left');
         document.getElementById('paper-right').classList.add('rip-right');
-        
-        setTimeout(() => {
-            document.getElementById('envelope-overlay').style.display = 'none';
-            document.getElementById('echo-container').classList.remove('hidden');
-        }, 1200);
+        document.getElementById('envelope-overlay').style.display = 'none';
+        document.getElementById('echo-container').classList.remove('hidden');
     });
 
-    // 6. Button Actions
+    // 4. Star Background (Canvas for performance)
+    const canvas = document.getElementById('starCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let stars = Array.from({ length: 150 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2,
+        speed: Math.random() * 0.05
+    }));
+
+    function drawStars() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#fff";
+        stars.forEach(s => {
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+            ctx.fill();
+            s.y -= s.speed; // Slow upward drift
+            if (s.y < 0) s.y = canvas.height;
+        });
+        requestAnimationFrame(drawStars);
+    }
+    drawStars();
+
+    // 5. Button Actions
     document.getElementById('yes-btn').addEventListener('click', () => {
         document.getElementById('echo-container').classList.add('hidden');
         document.getElementById('final-yes').classList.remove('hidden');
@@ -122,7 +77,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById('no-btn').addEventListener('mouseover', function() {
-        // Just a little playful "No" button that moves away
-        this.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
+        this.style.left = Math.random() * 80 + 'vw';
+        this.style.top = Math.random() * 80 + 'vh';
+        this.style.position = 'fixed';
     });
 });
