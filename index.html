@@ -6,7 +6,6 @@
     <title>A Celestial Invitation...</title>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
     <div id="nebula"></div>
@@ -17,8 +16,10 @@
     <div id="paper-right" class="paper-half"></div>
     
     <div id="envelope-overlay" class="white-overlay">
-        <div id="envelope-icon" class="envelope-icon">✉️</div>
-        <p class="tear-instruction">Click to tear the envelope...</p>
+        <div class="envelope-box">
+            <span style="font-size: 80px;">✉️</span>
+            <p style="font-family: 'Caveat'; font-size: 1.8rem;">Click to open the message</p>
+        </div>
     </div>
 
     <audio id="bg-music" loop><source src="song.mp3" type="audio/mpeg"></audio>
