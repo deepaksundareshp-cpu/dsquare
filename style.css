@@ -4,7 +4,7 @@ body, html {
     font-family: 'Caveat', cursive;
 }
 
-/* OPTIMIZED NEBULA */
+/* --- THE GALAXY --- */
 #nebula {
     position: fixed; width: 130vw; height: 130vh; top: -15vh; left: -15vw;
     background: radial-gradient(circle at 30% 30%, rgba(138,43,226,0.3), transparent 50%),
@@ -13,20 +13,29 @@ body, html {
     will-change: transform;
 }
 
-/* PERFORMANCE-FIRST STARDUST */
+/* --- SHOOTING STAR ENGINE STYLES --- */
+.shooting-star {
+    position: absolute; background: linear-gradient(90deg, #fff, transparent);
+    z-index: 100; pointer-events: none; opacity: 0;
+    will-change: transform, opacity;
+}
+.star-large { height: 4px; box-shadow: 0 0 20px 2px #fff; }
+.star-medium { height: 2px; box-shadow: 0 0 10px #fff; }
+.star-small { height: 1px; box-shadow: 0 0 5px #fff; }
+
+/* --- STARDUST CURSOR --- */
 .particle {
     position: fixed; background: #fff; border-radius: 50%;
     pointer-events: none; z-index: 999;
     will-change: transform, opacity;
     animation: sparkle 1.2s ease-out forwards;
 }
-
 @keyframes sparkle {
     0% { transform: translate(0,0) scale(1); opacity: 1; }
     100% { transform: translate(var(--mx), var(--my)) scale(0); opacity: 0; }
 }
 
-/* SMOOTH PAPER RIP */
+/* --- PAPER RIP TRANSITION --- */
 .paper-half {
     position: fixed; top: 0; width: 51%; height: 100%;
     background: #fff; z-index: 1001; 
@@ -34,36 +43,32 @@ body, html {
 }
 #paper-left { left: 0; border-right: 1px solid #eee; }
 #paper-right { right: 0; border-left: 1px solid #eee; }
-
 .rip-left { transform: translateX(-100%); }
 .rip-right { transform: translateX(100%); }
 
-/* TYPING TEXT BOX */
+/* --- TEXT & UI --- */
 .content-box {
     position: relative; z-index: 10; text-align: center;
     max-width: 800px; margin: 0 auto; height: 80vh;
     display: flex; flex-direction: column; justify-content: flex-end;
     padding-bottom: 80px;
 }
-
 .message { font-size: 2.2rem; line-height: 1.4; color: #fff; }
-.letter { transition: opacity 5s, color 5s; }
+.letter { transition: opacity 5s; }
 .fade-old { opacity: 0.1 !important; }
 
-/* UI ELEMENTS */
 .white-overlay {
     position: fixed; width: 100%; height: 100%; z-index: 1005;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     cursor: pointer; background: transparent;
 }
-
-.envelope-icon { font-size: 6rem; transition: 0.5s; }
+.envelope-icon { font-size: 6rem; }
 .btn { font-family: 'Caveat'; font-size: 1.8rem; padding: 12px 40px; border-radius: 40px; border: none; cursor: pointer; margin: 10px; }
 .yes { background: #ffb6c1; color: #fff; }
 .no { background: #fff; color: #333; }
 .hidden { display: none !important; }
 
-/* COFFEE STEAM */
+/* --- COFFEE STEAM --- */
 .steam-container { position: relative; display: inline-block; }
 .steam {
     position: absolute; top: -10px; left: 50%; width: 10px; height: 20px;
