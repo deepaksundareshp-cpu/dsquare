@@ -1,58 +1,26 @@
-/* --- Base Styles --- */
+/* --- Global Reset --- */
 body, html {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
-    background-color: #050510;
+    background: #000;
     color: #fff;
     font-family: 'Caveat', cursive;
-    overflow: hidden; /* Prevents scrollbars */
+    overflow: hidden;
 }
 
-/* --- Backgrounds --- */
-#star-field {
+/* --- Background Layers --- */
+#star-field, #nebula {
     position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    z-index: 1;
-}
-
-#nebula {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: radial-gradient(circle at center, rgba(30,10,60,0.5) 0%, rgba(5,5,16,1) 100%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 0;
-    transition: background 3s ease;
-}
-#nebula.intense {
-    background: radial-gradient(circle at center, rgba(100,20,80,0.8) 0%, rgba(20,5,30,1) 100%);
 }
 
-/* --- Envelope & Opening Sequence --- */
-.white-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 50;
-    cursor: pointer;
-    transition: opacity 1s ease;
-}
-
-.envelope-box {
-    text-align: center;
-    animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-}
-
+/* --- Paper Rip Effect --- */
 .paper-half {
     position: fixed;
     top: 0;
@@ -60,108 +28,66 @@ body, html {
     height: 100vh;
     background: #111;
     z-index: 40;
-    transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: transform 1.5s ease-in-out;
 }
-#paper-left { left: 0; border-right: 2px dashed #333; }
-#paper-right { right: 0; border-left: 2px dashed #333; }
-
+#paper-left { left: 0; border-right: 1px solid #333; }
+#paper-right { right: 0; border-left: 1px solid #333; }
 .rip-left { transform: translateX(-100%); }
 .rip-right { transform: translateX(100%); }
 
-/* --- Main Card & Typography (The Mobile Fix) --- */
+/* --- Envelope Overlay --- */
+.white-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+    background: rgba(0,0,0,0.8);
+    cursor: pointer;
+}
+
+/* --- THE MOBILE ALIGNMENT FIX (Container) --- */
 #main-card {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 650px;
-    height: 70vh; /* Acts as a window for the text to scroll through */
+    width: 85%;
+    max-width: 600px;
+    height: 60vh; /* Fixed height acts as a window */
     display: flex;
-    align-items: center; /* Centers the text block vertically */
+    align-items: center; /* Keeps current line centered */
     justify-content: center;
+    text-align: center;
     z-index: 10;
-    overflow: hidden; /* Hides text that moves above/below the viewing area */
-    transition: opacity 2s ease;
+    overflow: hidden; 
+    transition: opacity 1s;
 }
 
 #typed-text {
     width: 100%;
-    text-align: center;
-    font-size: 2rem; /* Caveat font runs a bit small, so 2rem is good */
-    line-height: 1.5;
-    transition: transform 0.6s ease-out; /* Smooth scroll effect */
+    font-size: 1.8rem;
+    line-height: 1.4;
+    transition: transform 0.6s ease-out; /* Smooth scrolling */
+    will-change: transform;
 }
 
-/* Mobile Adjustments */
 @media (max-width: 600px) {
     #typed-text {
-        font-size: 1.6rem;
+        font-size: 1.4rem; /* Smaller font for small screens */
     }
 }
 
 .letter {
     display: inline;
-    transition: opacity 3s ease;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    transition: opacity 2s;
 }
 
 .fade-out { opacity: 0; }
 .hidden { display: none !important; }
 
-/* --- Particle & Star Effects --- */
-.static-star {
-    position: absolute;
-    background: white;
-    border-radius: 50%;
-    animation: twinkle var(--twinkle-duration) infinite alternate;
-}
-
-@keyframes twinkle {
-    0% { opacity: 0.2; transform: scale(0.8); }
-    100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 5px white; }
-}
-
-.cursor-particle {
-    position: fixed;
-    width: 4px; height: 4px;
-    background: #00fbff;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 100;
-    animation: drift 1.2s forwards cubic-bezier(0, .9, .57, 1);
-}
-
-@keyframes drift {
-    100% {
-        transform: translate(var(--dx), var(--dy)) scale(0);
-        opacity: 0;
-    }
-}
-
-.shooting-star {
-    position: absolute;
-    border-radius: 50%;
-    z-index: 5;
-}
-
-/* Big Bang Element */
-#big-bang-element {
-    position: fixed;
-    top: 50%; left: 50%;
-    width: 10px; height: 10px;
-    background: white;
-    border-radius: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    z-index: 20;
-}
-
-.bang-active {
-    animation: explode 2s forwards ease-out;
-}
-
-@keyframes explode {
-    0% { transform: translate(-50%, -50%) scale(0); box-shadow: 0 0 0 white; }
-    50% { transform: translate(-50%, -50%) scale(100); opacity: 1; background: #fff; }
-    100% { transform: translate(-50%, -50%) scale(200); opacity: 0; }
-}
+/* --- Effects --- */
+.static-star { position: absolute; background: #fff; border-radius: 50%; }
+.cursor-particle { position: fixed; pointer-events: none; background: #00fbff; border-radius: 50%; }
+.shooting-star { position: absolute; pointer-events: none; }
