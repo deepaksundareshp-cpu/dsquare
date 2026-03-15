@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const typedText = document.getElementById('typed-text');
     const mainCard = document.getElementById('main-card');
 
-    // 1. Static Twinkling Stars (The missing part)
+    // 1. Static Twinkling Stars
     function createBackgroundStars() {
         for (let i = 0; i < 150; i++) {
             const star = document.createElement('div');
@@ -61,18 +61,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 4. Opening Sequence
     document.getElementById('envelope-overlay').addEventListener('click', function() {
-        document.getElementById('bg-music').play().catch(() => {});
+        const music = document.getElementById('bg-music');
+        if(music) music.play().catch(() => {});
+        
         document.getElementById('paper-left').classList.add('rip-left');
         document.getElementById('paper-right').classList.add('rip-right');
         this.classList.add('hidden');
+        
         setTimeout(() => {
             mainCard.classList.remove('hidden');
             startTyping();
         }, 1500);
     });
 
-    // 5. Typing Logic
+    // 5. Typing Logic (ADAPTIVE SCROLL)
     const fullText = `I feel something is missing in me.... A reason???? A question of worth???\n\nI just don’t know. I don’t give up easily, no matter how humiliating it gets—everything... is learning. It happened to me in a way I didn’t expect, and it happened to you, too.\n\nI just don’t know if you feel how I feel. I feel things deeply and I care too much, expecting nothing in return... but the truth is, I expected something from you.\n\nI thought you could change me. I thought you could make me better for your better future. Maybe it’s false, but I believed it was true.\n\nThings took a change in a way we never expected. That’s fine; learning makes us better. I moved on alone, but you had someone you thought might be the one.\n\nI want you to learn, too, rather than getting angry at him. It’s not worth it. Trust me, it’s not going to make you better. Things fade... your good deeds fade... your past fades... just like how these words are fading on the screen.\n\nI see you most of the time. Whenever I go to the office, you appear. And every time I see you...\n\nYOU... LOOK... LIKE... THIS.`;
+    
     let charIndex = 0;
     let currentYOffset = 0;
 
@@ -82,13 +86,20 @@ document.addEventListener("DOMContentLoaded", () => {
             const span = document.createElement('span');
             span.className = 'letter';
             span.textContent = char;
+
             if (char === '\n') {
                 typedText.appendChild(document.createElement('br'));
-                currentYOffset -= 35;
+                
+                // ADJUSTMENT: Calculate scroll based on screen width
+                const isMobile = window.innerWidth < 600;
+                const scrollStep = isMobile ? 28 : 35; // Smaller jump for mobile fonts
+                
+                currentYOffset -= scrollStep;
                 typedText.style.transform = `translateY(${currentYOffset}px)`;
             } else {
                 typedText.appendChild(span);
             }
+
             setTimeout(() => span.classList.add('fade-out'), 5000);
             charIndex++;
             setTimeout(startTyping, char === '.' ? 900 : 65);
@@ -100,19 +111,27 @@ document.addEventListener("DOMContentLoaded", () => {
     // 6. Big Bang Sequence
     function triggerBigBangSequence() {
         const bang = document.createElement('div');
-        bang.id = 'big-bang-element';
+        bang.style.cssText = "position:fixed; top:50%; left:50%; width:2px; height:2px; background:white; z-index:100; border-radius:50%; transform:translate(-50%,-50%);";
         document.body.appendChild(bang);
+        
         const m1 = document.createElement('div'); m1.className = 'heavy-meteor';
-        m1.style.left = '-200px'; m1.style.top = '-200px';
         const m2 = document.createElement('div'); m2.className = 'heavy-meteor';
-        m2.style.right = '-200px'; m2.style.bottom = '-200px';
-        document.body.appendChild(m1); document.body.appendChild(m2);
+        // (Adding basic meteor styles via JS for brevity)
+        [m1, m2].forEach(m => {
+            m.style.cssText = "position:fixed; width:50px; height:50px; background:white; filter:blur(10px); z-index:99;";
+            document.body.appendChild(m);
+        });
+
+        m1.style.left = '-100px'; m1.style.top = '-100px';
+        m2.style.right = '-100px'; m2.style.bottom = '-100px';
+
         const collTime = 3000;
-        m1.animate([{left:'-200px', top:'-200px'}, {left:'50%', top:'50%', transform:'translate(-50%,-50%)'}], {duration: collTime, easing:'ease-in'});
-        m2.animate([{right:'-200px', bottom:'-200px'}, {right:'50%', bottom:'50%', transform:'translate(50%,50%)'}], {duration: collTime, easing:'ease-in'});
+        m1.animate([{left:'-100px'}, {left:'50%', top:'50%'}], {duration: collTime});
+        m2.animate([{right:'-100px'}, {right:'50%', bottom:'50%'}], {duration: collTime});
+
         setTimeout(() => {
             m1.remove(); m2.remove();
-            bang.classList.add('bang-active');
+            bang.animate([{transform:'scale(0)', opacity:1}, {transform:'scale(1000)', opacity:0}], {duration: 2000});
             nebula.classList.add('intense');
             let showerInterval = setInterval(() => launchStar(true), 50);
             setTimeout(() => {
